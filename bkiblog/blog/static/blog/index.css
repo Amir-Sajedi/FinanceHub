@@ -1,32 +1,31 @@
     :root {
-        --primary-green: #14b8a6;
-        --primary-green-dark: #0f766e;
-        --primary-green-light: #5eead4;
-        --accent-green: #2dd4bf;
-        --accent-purple: #8b5cf6;
-        --accent-blue: #38bdf8;
+        --primary-green: #00d9a3;
+        --primary-green-dark: #00b386;
+        --primary-green-light: #4dffcd;
+        --accent-green: #7fffd4;
+        --accent-purple: #a78bfa;
+        --accent-blue: #60a5fa;
         --accent-pink: #f472b6;
-        --accent-orange: #f59e0b;
+        --accent-orange: #fb923c;
         --bg-primary: #ffffff;
-        --bg-secondary: #f8fafc;
+        --bg-secondary: #f0fdfa;
         --bg-card: #ffffff;
-        --text-primary: #0f172a;
-        --text-secondary: #475569;
-        --text-light: #94a3b8;
-        --border-color: #e2e8f0;
-        --shadow-sm: 0 6px 16px rgba(15, 118, 110, 0.12);
-        --shadow-md: 0 16px 32px rgba(15, 118, 110, 0.18);
-        --shadow-lg: 0 24px 48px rgba(15, 118, 110, 0.22);
-        --gradient-vibrant: linear-gradient(135deg, #14b8a6 0%, #38bdf8 50%, #8b5cf6 100%);
-        --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #f472b6 100%);
-        --gradient-bg: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #f5f3ff 100%);
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --text-light: #9ca3af;
+        --border-color: #e5e7eb;
+        --shadow-sm: 0 2px 8px rgba(0, 217, 163, 0.15);
+        --shadow-md: 0 8px 24px rgba(0, 217, 163, 0.2);
+        --shadow-lg: 0 16px 48px rgba(0, 217, 163, 0.25);
+        --gradient-vibrant: linear-gradient(135deg, #00d9a3 0%, #60a5fa 50%, #a78bfa 100%);
+        --gradient-warm: linear-gradient(135deg, #fb923c 0%, #f472b6 100%);
         --spacing-xs: 0.5rem;
         --spacing-sm: 1rem;
         --spacing-md: 1.5rem;
         --spacing-lg: 2rem;
         --spacing-xl: 3rem;
-        --border-radius: 14px;
-        --transition: all 0.25s ease;
+        --border-radius: 12px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * {
@@ -43,7 +42,7 @@
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         line-height: 1.6;
         color: var(--text-primary);
-        background: var(--gradient-bg);
+        background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 50%, #f3e8ff 100%);
         min-height: 100vh;
     }
 
@@ -53,7 +52,7 @@
         position: sticky;
         top: 0;
         z-index: 1000;
-        border-bottom: 1px solid rgba(15, 118, 110, 0.18);
+        border-bottom: 2px solid rgba(0, 217, 163, 0.2);
     }
 
     .nav-container {
@@ -112,7 +111,7 @@
 
     .nav-links a:hover {
         color: var(--primary-green);
-        background: linear-gradient(135deg, rgba(20, 184, 166, 0.12) 0%, rgba(56, 189, 248, 0.12) 100%);
+        background: linear-gradient(135deg, rgba(0, 217, 163, 0.1) 0%, rgba(96, 165, 250, 0.1) 100%);
         border-radius: 12px;
     }
 
@@ -134,11 +133,11 @@
     .signup-btn:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
-        background: linear-gradient(135deg, #38bdf8 0%, #14b8a6 50%, #8b5cf6 100%) !important;
+        background: linear-gradient(135deg, #60a5fa 0%, #00d9a3 50%, #a78bfa 100%) !important;
     }
 
     .hero {
-        background: linear-gradient(135deg, rgba(20, 184, 166, 0.12) 0%, rgba(56, 189, 248, 0.12) 50%, rgba(139, 92, 246, 0.1) 100%);
+        background: linear-gradient(135deg, rgba(0, 217, 163, 0.1) 0%, rgba(96, 165, 250, 0.1) 50%, rgba(167, 139, 250, 0.1) 100%);
         padding: var(--spacing-xl) var(--spacing-md);
         text-align: center;
         border-bottom: 1px solid var(--border-color);
@@ -163,43 +162,6 @@
         font-size: 1.125rem;
         color: var(--text-secondary);
         line-height: 1.8;
-    }
-
-    .hero-actions {
-        margin-top: var(--spacing-lg);
-        display: flex;
-        justify-content: center;
-    }
-
-    .manage-funds-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.85rem 2.4rem;
-        border-radius: 12px;
-        font-weight: 600;
-        text-decoration: none;
-        color: white;
-        background: var(--gradient-vibrant);
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        letter-spacing: 0.01em;
-    }
-
-    .manage-funds-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-        background: linear-gradient(135deg, #38bdf8 0%, #14b8a6 50%, #8b5cf6 100%);
-    }
-
-    .manage-funds-btn:active {
-        transform: translateY(0);
-        box-shadow: var(--shadow-sm);
-    }
-
-    .manage-funds-btn:focus-visible {
-        outline: 2px solid var(--primary-green);
-        outline-offset: 3px;
     }
 
     .container {
@@ -257,20 +219,20 @@
     }
 
     .feature-card:hover {
-        transform: translateY(-6px);
+        transform: translateY(-8px);
         box-shadow: var(--shadow-lg);
     }
 
     .feature-card:nth-child(1) .feature-icon {
-        background: linear-gradient(135deg, #14b8a6 0%, #5eead4 100%);
+        background: linear-gradient(135deg, #00d9a3 0%, #4dffcd 100%);
     }
 
     .feature-card:nth-child(2) .feature-icon {
-        background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 100%);
+        background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
     }
 
     .feature-card:nth-child(3) .feature-icon {
-        background: linear-gradient(135deg, #f59e0b 0%, #f472b6 100%);
+        background: linear-gradient(135deg, #f472b6 0%, #fb923c 100%);
     }
 
     .feature-icon {
@@ -363,7 +325,7 @@
         text-align: center;
         padding: var(--spacing-lg);
         color: var(--text-light);
-        border-top: 1px solid rgba(15, 118, 110, 0.18);
+        border-top: 2px solid rgba(0, 217, 163, 0.2);
         margin-top: var(--spacing-xl);
     }
 
@@ -384,15 +346,6 @@
 
         .hero p {
             font-size: 1rem;
-        }
-
-        .welcome-banner {
-            margin-top: var(--spacing-md);
-        }
-
-        .welcome-banner-inner {
-            flex-direction: column;
-            align-items: flex-start;
         }
 
         .features-grid {
@@ -416,32 +369,19 @@
         .feature-card {
             padding: var(--spacing-md);
         }
-
-        .manage-funds-btn {
-            width: 100%;
-        }
     }
 
     .welcome-banner {
-        max-width: 1200px;
-        margin: var(--spacing-lg) auto var(--spacing-md);
-        padding: 0 var(--spacing-md);
-    }
-
-    .welcome-banner-inner {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-md);
         background: var(--bg-card);
         border-radius: var(--border-radius);
         padding: var(--spacing-md) var(--spacing-lg);
-        border: 1px solid rgba(15, 118, 110, 0.12);
+        margin-bottom: var(--spacing-lg);
+        border: 2px solid transparent;
         position: relative;
         overflow: hidden;
-        box-shadow: var(--shadow-sm);
     }
 
-    .welcome-banner-inner::before {
+    .welcome-banner::before {
         content: '';
         position: absolute;
         top: 0;
@@ -457,19 +397,24 @@
         pointer-events: none;
     }
 
+    .welcome-banner-inner {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
     .welcome-avatar {
-        width: 44px;
-        height: 44px;
+        width: 38px;
+        height: 38px;
         background: var(--gradient-vibrant);
         color: white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 600;
         flex-shrink: 0;
-        box-shadow: var(--shadow-sm);
     }
 
     .welcome-text {
@@ -482,11 +427,11 @@
         font-size: 0.75rem;
         color: var(--text-secondary);
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.05em;
     }
 
     .welcome-name {
-        font-size: 1.05rem;
+        font-size: 1rem;
         font-weight: 600;
         color: var(--text-primary);
     }
@@ -517,7 +462,7 @@
 .hub-btn:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
-    background: linear-gradient(135deg, #38bdf8 0%, #14b8a6 50%, #8b5cf6 100%) !important;
+    background: linear-gradient(135deg, #60a5fa 0%, #00d9a3 50%, #a78bfa 100%) !important;
 }
 
 .hub-btn:focus {
