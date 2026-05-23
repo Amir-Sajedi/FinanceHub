@@ -1,0 +1,424 @@
+/* Converter Page Specific Styles */
+
+.converter-section,
+.metals-section,
+.networth-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Currency Converter Card */
+.converter-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    max-width: 700px;
+    margin: 0 auto;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.converter-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: var(--border-radius);
+    padding: 2px;
+    background: var(--gradient-vibrant);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.converter-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.input-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.input-group input,
+.input-group select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: var(--transition);
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(0, 217, 163, 0.1);
+}
+
+.currency-selectors {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: var(--spacing-md);
+    align-items: end;
+}
+
+.swap-btn {
+    background: var(--gradient-vibrant);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2px;
+}
+
+.swap-btn svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+.swap-btn:hover {
+    transform: rotate(180deg) scale(1.1);
+    box-shadow: var(--shadow-md);
+}
+
+.convert-btn {
+    background: var(--gradient-vibrant);
+    color: white;
+    border: none;
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.convert-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.result-display {
+    background: linear-gradient(135deg, rgba(0, 217, 163, 0.05) 0%, rgba(96, 165, 250, 0.05) 100%);
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    text-align: center;
+    margin-top: var(--spacing-sm);
+}
+
+.result-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-xs);
+}
+
+.result-value {
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--gradient-vibrant);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-xs);
+}
+
+.exchange-rate {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+/* Precious Metals Section */
+.metals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.metal-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.metal-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: var(--border-radius);
+    padding: 2px;
+    background: var(--gradient-vibrant);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.metal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.metal-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.metal-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.gold-icon {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.silver-icon {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+}
+
+.metal-icon svg {
+    width: 28px;
+    height: 28px;
+    color: white;
+}
+
+.metal-info h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.metal-price {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.metal-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.metal-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(0, 217, 163, 0.05) 0%, rgba(96, 165, 250, 0.05) 100%);
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    margin-top: var(--spacing-sm);
+}
+
+.metal-result .result-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metal-result .result-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: var(--gradient-vibrant);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Net Worth Section */
+.networth-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    max-width: 800px;
+    margin: 0 auto;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.networth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: var(--border-radius);
+    padding: 2px;
+    background: var(--gradient-vibrant);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.networth-placeholder {
+    text-align: center;
+    padding: var(--spacing-lg);
+}
+
+.placeholder-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-vibrant);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-lg);
+}
+
+.placeholder-icon svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+}
+
+.networth-placeholder h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.networth-placeholder > p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto var(--spacing-lg);
+}
+
+.placeholder-features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.placeholder-feature {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: linear-gradient(135deg, rgba(0, 217, 163, 0.05) 0%, rgba(96, 165, 250, 0.05) 100%);
+    border-radius: 8px;
+}
+
+.placeholder-feature svg {
+    width: 20px;
+    height: 20px;
+    color: var(--primary-green);
+    flex-shrink: 0;
+}
+
+.placeholder-feature span {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .converter-card,
+    .networth-card {
+        padding: var(--spacing-lg);
+    }
+
+    .currency-selectors {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .swap-btn {
+        transform: rotate(90deg);
+        margin: 0;
+    }
+
+    .metals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .result-value {
+        font-size: 1.75rem;
+    }
+
+    .metal-result .result-value {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .converter-card,
+    .metal-card,
+    .networth-card {
+        padding: var(--spacing-md);
+    }
+
+    .result-value {
+        font-size: 1.5rem;
+    }
+
+    .placeholder-icon {
+        width: 64px;
+        height: 64px;
+    }
+
+    .placeholder-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block styling %}{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+<div class="welcome-banner">
+    <div class="welcome-banner-inner">
+        <div class="welcome-avatar">{{ user.username|slice:":1"|upper }}</div>
+        <div class="welcome-text">
+            <span class="welcome-greeting">Welcome back</span>
+            <span class="welcome-name">{{ user.username }}</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Keshavarzi Finance Hub</h1>
+            <p>Your comprehensive financial management platform for currency exchange, precious metals tracking, and secure savings management.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="features" class="features-section">
+            <h2 class="section-title">Our Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <h3>Real-Time Currency Exchange</h3>
+                    <p>Convert between multiple currencies with live exchange rates. Track your conversions and monitor market trends to make informed financial decisions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Gold & Silver Converter</h3>
+                    <p>Calculate the value of your precious metals holdings in real-time. Convert between grams, ounces, and currency values with up-to-date market prices.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M3 9h18M9 21V9"/>
+                        </svg>
+                    </div>
+                    <h3>Total Saved Balance</h3>
+                    <p>View your complete financial overview in one place. Track all your assets, conversions, and savings with detailed analytics and historical data.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="info-section">
+            <div class="info-content">
+                <h2>About Us</h2>
+                <p>Keshavarzi Finance Hub is a modern financial management platform designed to simplify your currency exchange and precious metals tracking needs. We provide secure, reliable, and user-friendly tools to help you manage your financial assets with confidence.</p>
+                <p>Our platform combines cutting-edge technology with intuitive design to deliver a seamless experience for both novice and experienced investors.</p>
+            </div>
+        </section>
+
+        <section id="privacy" class="info-section">
+            <div class="info-content">
+                <h2>Privacy & Security</h2>
+                <p>Your financial data security is our top priority. We employ industry-standard encryption protocols to protect your information and ensure all transactions are processed through secure channels.</p>
+                <p>We never share your personal data with third parties and maintain strict compliance with international data protection regulations.</p>
+            </div>
+        </section>
+    </main>
+{% endblock %}

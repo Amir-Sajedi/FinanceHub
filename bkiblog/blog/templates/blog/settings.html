@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block styling %}
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 2rem;
+        }
+        .settings-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .settings-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .settings-header h1 {
+            margin: 0;
+            color: #2d3748;
+        }
+        .settings-section {
+            margin: 2rem 0;
+        }
+        .settings-section h2 {
+            color: #4a5568;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .settings-placeholder {
+            padding: 2rem;
+            background: #f7fafc;
+            border-radius: 8px;
+            text-align: center;
+            color: #718096;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            color: #764ba2;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="settings-container">
+        <div class="settings-card">
+            <div class="settings-header">
+                <h1>Account Settings</h1>
+            </div>
+
+            <div class="settings-section">
+                <h2>Profile Information</h2>
+                <div class="settings-placeholder">
+                    <p>Profile settings coming soon...</p>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Change Password</h2>
+                <div class="settings-placeholder">
+                    <p>Password change functionality coming soon...</p>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Security</h2>
+                <div class="settings-placeholder">
+                    <p>Security settings coming soon...</p>
+                </div>
+            </div>
+
+            <a href="{% url 'home' %}" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+{% endblock %}
