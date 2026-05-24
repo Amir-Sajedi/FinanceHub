@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect,HttpResponse
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
@@ -21,8 +21,7 @@ def user_login(request):
             if user is not None:
                     login(request, user)
                     return redirect('home')
-            else:
-                return HttpResponse("invalid login")
+            
     
     else:
         form = LoginForm()
