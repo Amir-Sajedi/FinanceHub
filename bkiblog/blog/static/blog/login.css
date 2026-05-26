@@ -119,6 +119,43 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.login-error-alert {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.15) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: var(--error);
+    margin-bottom: 1.5rem;
+}
+
+.login-error-alert .alert-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error);
+    flex-shrink: 0;
+}
+
+.login-error-alert .alert-text strong {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+}
+
+.login-error-alert .alert-text p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
 .alert {
     padding: 0.75rem 1rem;
     border-radius: 10px;

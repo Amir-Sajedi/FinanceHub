@@ -17,30 +17,34 @@
 {% endif %}
 
     <header class="hero">
-        <div class="hero-logo-container">
-            <div class="finance-hub-logo-3d">
-                <div class="logo-3d-layer front">
-                    <div class="logo-text-3d">
-                        <span class="main">FH</span>
-                        <span class="sub">HUB</span>
+        <div class="hero-inner">
+            <div class="hero-visual">
+                <div class="hero-logo-container">
+                    <div class="finance-hub-logo-3d">
+                        <div class="logo-3d-layer front">
+                            <div class="logo-text-3d">
+                                <span class="main">FH</span>
+                                <span class="sub">HUB</span>
+                            </div>
+                        </div>
+                        <div class="logo-3d-layer back">
+                            <div class="logo-text-3d">
+                                <span class="main">FH</span>
+                            </div>
+                        </div>
+                        <div class="logo-3d-layer right"></div>
+                        <div class="logo-3d-layer left"></div>
+                        <div class="logo-3d-layer top"></div>
+                        <div class="logo-3d-layer bottom"></div>
                     </div>
                 </div>
-                <div class="logo-3d-layer back">
-                    <div class="logo-text-3d">
-                        <span class="main">FH</span>
-                    </div>
-                </div>
-                <div class="logo-3d-layer right"></div>
-                <div class="logo-3d-layer left"></div>
-                <div class="logo-3d-layer top"></div>
-                <div class="logo-3d-layer bottom"></div>
             </div>
-        </div>
-        <div class="hero-content">
-            <h1 data-i18n="hero.title">Welcome to Finance Hub</h1>
-            <p data-i18n="hero.subtitle">Your comprehensive financial management platform for currency exchange, precious metals tracking, and secure savings management.</p>
-            <div class="hero-actions">
-                <a href="{% url 'converter' %}" class="manage-funds-btn" data-i18n="hero.cta">Manage Your Funds</a>
+            <div class="hero-content">
+                <h1 data-i18n="hero.title">Welcome to Finance Hub</h1>
+                <p data-i18n="hero.subtitle">Your comprehensive financial management platform for currency exchange, precious metals tracking, and secure savings management.</p>
+                <div class="hero-actions">
+                    <a href="{% url 'converter' %}" class="manage-funds-btn" data-i18n="hero.cta">Manage Your Funds</a>
+                </div>
             </div>
         </div>
     </header>

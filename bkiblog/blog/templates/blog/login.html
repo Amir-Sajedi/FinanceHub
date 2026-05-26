@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,8 +44,20 @@
                 </div>
             {% endif %}
             
-            {% if form.errors %}
-                <div id="loginErrorToast"></div>
+            {% if form.non_field_errors %}
+                <div class="login-error-alert" role="alert">
+                    <div class="alert-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <div class="alert-text">
+                        <strong data-i18n="login.error">Invalid Login Credentials</strong>
+                        <p data-i18n="login.error.message">The username or password you entered is incorrect. Please try again.</p>
+                    </div>
+                </div>
             {% endif %}
 
             <form method="POST" class="login-form">

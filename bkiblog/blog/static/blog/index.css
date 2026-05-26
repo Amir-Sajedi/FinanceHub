@@ -12,20 +12,20 @@
         --bg-primary: #ffffff;
         --bg-secondary: #f8fafc;
         --bg-card: #ffffff;
-        --text-primary: #0f172a;
+        --text-primary: #0b1320;
         --text-secondary: #475569;
         --text-light: #94a3b8;
         --border-color: #e2e8f0;
         --border-color-light: #f1f5f9;
-        --shadow-sm: 0 6px 16px rgba(15, 118, 110, 0.12);
-        --shadow-md: 0 16px 32px rgba(15, 118, 110, 0.18);
-        --shadow-lg: 0 24px 48px rgba(15, 118, 110, 0.22);
-        --shadow-hub: 0 8px 32px rgba(139, 92, 246, 0.35);
+        --shadow-sm: 0 6px 16px rgba(15, 23, 42, 0.08);
+        --shadow-md: 0 18px 36px rgba(15, 23, 42, 0.12);
+        --shadow-lg: 0 26px 52px rgba(15, 23, 42, 0.16);
+        --shadow-hub: 0 10px 36px rgba(99, 102, 241, 0.35);
         --gradient-vibrant: linear-gradient(135deg, #14b8a6 0%, #38bdf8 50%, #8b5cf6 100%);
         --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #f472b6 100%);
-        --gradient-bg: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #f5f3ff 100%);
-        --gradient-hub: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #a855f7 100%);
-        --gradient-fintech: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #2dd4bf 100%);
+        --gradient-bg: linear-gradient(135deg, #f9fbff 0%, #eef2ff 45%, #f5f3ff 100%);
+        --gradient-hub: linear-gradient(135deg, #6366f1 0%, #7c3aed 50%, #a855f7 100%);
+        --gradient-fintech: linear-gradient(135deg, #0f766e 0%, #14b8a6 45%, #0ea5e9 100%);
         --spacing-xs: 0.5rem;
         --spacing-sm: 1rem;
         --spacing-md: 1.5rem;
@@ -65,7 +65,7 @@
     .nav-container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: var(--spacing-sm) var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -103,7 +103,7 @@
     .nav-links {
         display: flex;
         list-style: none;
-        gap: var(--spacing-xs);
+        gap: var(--spacing-sm);
         align-items: center;
     }
 
@@ -149,10 +149,11 @@
         background: var(--gradient-hub) !important;
         color: white !important;
         padding: 0.6rem 1.5rem !important;
-        border-radius: 12px !important;
+        border-radius: 999px !important;
         font-weight: 600;
         font-size: 0.95rem;
         box-shadow: var(--shadow-hub);
+        border: 1px solid rgba(255, 255, 255, 0.35);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         display: inline-flex;
         align-items: center;
@@ -178,8 +179,8 @@
     
     .hub-btn:hover {
         transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 12px 40px rgba(139, 92, 246, 0.45);
-        background: linear-gradient(135deg, #a855f7 0%, #7c3aed 50%, #8b5cf6 100%) !important;
+        box-shadow: 0 16px 48px rgba(99, 102, 241, 0.5);
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #7c3aed 100%) !important;
     }
     
     .hub-btn:active {
@@ -191,9 +192,9 @@
     }
 
     .hero {
-        background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(139, 92, 246, 0.08) 100%);
-        padding: var(--spacing-xl) var(--spacing-md);
-        text-align: center;
+        background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(99, 102, 241, 0.08) 100%);
+        padding: calc(var(--spacing-xl) + 1rem) var(--spacing-md);
+        text-align: left;
         border-bottom: 2px solid var(--border-color-light);
         position: relative;
         overflow: hidden;
@@ -234,11 +235,32 @@
         }
     }
 
-    .hero-content {
-        max-width: 800px;
+    .hero-inner {
+        max-width: 1100px;
         margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--spacing-xl);
         position: relative;
         z-index: 1;
+    }
+
+    .hero-visual {
+        flex: 0 0 auto;
+    }
+
+    .hero-logo-container {
+        margin-bottom: 0;
+    }
+
+    .hero-content {
+        max-width: 640px;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .hero h1 {
@@ -255,14 +277,13 @@
         font-size: 1.125rem;
         color: var(--text-secondary);
         line-height: 1.8;
-        max-width: 700px;
-        margin: 0 auto;
+        max-width: 620px;
     }
 
     .hero-actions {
         margin-top: var(--spacing-lg);
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .manage-funds-btn {
@@ -520,6 +541,21 @@
         padding: 0;
         text-decoration: none;
         display: inline;
+    }
+
+    @media (max-width: 1024px) {
+        .hero-inner {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .hero-content {
+            align-items: center;
+        }
+
+        .hero-actions {
+            justify-content: center;
+        }
     }
 
     @media (max-width: 768px) {

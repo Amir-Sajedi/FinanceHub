@@ -7,6 +7,7 @@ const translations = {
         // Navigation
         'nav.home': 'Home',
         'nav.about': 'About',
+        'nav.brand': 'Finance Hub',
         'nav.settings': 'Settings',
         'nav.hub': 'Hub',
         'nav.logout': 'Logout',
@@ -59,6 +60,7 @@ const translations = {
         // Navigation
         'nav.home': 'خانه',
         'nav.about': 'درباره ما',
+        'nav.brand': 'هاب مالی',
         'nav.settings': 'تنظیمات',
         'nav.hub': 'هاب',
         'nav.logout': 'خروج',
@@ -110,7 +112,7 @@ const translations = {
 };
 
 // Get current language from localStorage or default to 'en'
-let currentLang = localStorage.getItem('language') || 'en';
+let currentLang = localStorage.getItem('language') || 'fa';
 
 // Initialize language on page load
 document.addEventListener('DOMContentLoaded', function() {
