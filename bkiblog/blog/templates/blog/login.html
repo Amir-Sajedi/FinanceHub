@@ -1,10 +1,18 @@
 {% load static %}
-
-{% block styling %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Finance Hub</title>
     <link rel="stylesheet" href="{% static 'blog/login.css' %}">
-{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/i18n.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-{% block content %}
     <div class="login-container">
         <div class="login-card">
             <div class="card-header">
@@ -14,8 +22,16 @@
                         <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
                     </svg>
                 </div>
-                <h1>Welcome!</h1>
-                <p>Sign in to continue</p>
+                <h1 data-i18n="login.title">Welcome!</h1>
+                <p data-i18n="login.subtitle">Sign in to continue</p>
+                
+                <!-- Language Switcher -->
+                <div class="language-switcher" style="margin-top: 1rem;">
+                    <button id="langToggle" class="lang-toggle-btn" aria-label="Toggle Language">
+                        <span class="lang-flag">🇮🇷</span>
+                        <span class="lang-text">فارسی</span>
+                    </button>
+                </div>
             </div>
 
             {% if messages %}
@@ -27,13 +43,17 @@
                     {% endfor %}
                 </div>
             {% endif %}
+            
+            {% if form.errors %}
+                <div id="loginErrorToast"></div>
+            {% endif %}
 
             <form method="POST" class="login-form">
                 {% csrf_token %}
                 
                 {% for field in form %}
                     <div class="form-field">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <label for="{{ field.id_for_label }}" data-i18n="login.{{ field.name }}">{{ field.label }}</label>
                         <div class="input-container">
                             {{ field }}
                             <span class="field-icon">
@@ -70,20 +90,35 @@
                 <div class="form-extras">
                     <label class="checkbox-label">
                         <input type="checkbox" name="remember">
-                        <span>Remember me</span>
+                        <span data-i18n="login.remember">Remember me</span>
                     </label>
-                    <a href="{% url 'password_reset' %}" class="link-text">Forgot password?</a>
+                    <a href="{% url 'password_reset' %}" class="link-text" data-i18n="login.forgot">Forgot password?</a>
                 </div>
 
-                <button type="submit" class="btn-submit">
+                <button type="submit" class="btn-submit" data-i18n="login.submit">
                     Sign In
                 </button>
             </form>
 
             <div class="card-footer">
-                <span>Don't have an account?</span>
-                <a href="{% url 'home' %}">Create one</a>
+                <span data-i18n="login.noaccount">Don't have an account?</span>
+                <a href="{% url 'home' %}" data-i18n="login.create">Create one</a>
             </div>
         </div>
     </div>
-{% endblock %}
+    
+    <script src="{% static 'js/i18n.js' %}"></script>
+    <script>
+        // Show error toast if login failed
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if form.errors or form.non_field_errors %}
+                setTimeout(function() {
+                    const errorTitle = window.i18n.translate('login.error');
+                    const errorMessage = window.i18n.translate('login.error.message');
+                    window.i18n.showToast('error', errorTitle, errorMessage, 6000);
+                }, 100);
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

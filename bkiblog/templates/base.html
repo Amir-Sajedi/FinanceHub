@@ -1,11 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keshavarzi Finance Hub</title>
+    <title>Finance Hub</title>
     <link rel="stylesheet" href="{% static 'blog/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/i18n.css' %}">
+    <link rel="stylesheet" href="{% static 'css/logo-3d.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -17,13 +19,13 @@
     <div class="nav-container">
         <div class="nav-brand">
             <div class="brand-logo">F</div>
-            <span class="brand-text">Keshavarzi finance hub</span>
+            <span class="brand-text" data-i18n="nav.brand">Finance Hub</span>
         </div>
         <ul class="nav-links">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'home' %}#about">About</a></li>
+            <li><a href="{% url 'home' %}" data-i18n="nav.home">Home</a></li>
+            <li><a href="{% url 'home' %}#about" data-i18n="nav.about">About</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'settings' %}" data-i18n="nav.settings">Settings</a></li>
                 <li>
                     <a href="/hub" class="hub-btn" aria-label="Go to Financial Hub">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -32,18 +34,24 @@
                             <rect x="14" y="14" width="7" height="7"/>
                             <rect x="3" y="14" width="7" height="7"/>
                         </svg>
-                        Hub
+                        <span data-i18n="nav.hub">Hub</span>
                     </a>
                 </li>
                 <li>
                     <form method="post" action="{% url 'logout' %}" style="display: inline; margin: 0;">
                         {% csrf_token %}
-                        <button type="submit" class="signup-btn logout-form-btn">Logout</button>
+                        <button type="submit" class="signup-btn logout-form-btn" data-i18n="nav.logout">Logout</button>
                     </form>
                 </li>
             {% else %}
-                <li><a href="{% url 'login' %}" class="signup-btn">Sign Up</a></li>
+                <li><a href="{% url 'login' %}" class="signup-btn" data-i18n="nav.signup">Sign Up</a></li>
             {% endif %}
+            <li class="language-switcher">
+                <button id="langToggle" class="lang-toggle-btn" aria-label="Toggle Language">
+                    <span class="lang-flag">🇮🇷</span>
+                    <span class="lang-text">فارسی</span>
+                </button>
+            </li>
         </ul>
     </div>
 </nav>
@@ -51,7 +59,9 @@
 {% block content %}{% endblock %}
 
 <footer class="footer">
-    <p>&copy; 2026 Keshavarzi finance hub. All rights reserved.</p>
+    <p data-i18n="footer.copyright">&copy; 2026 Finance Hub. All rights reserved.</p>
 </footer>
+
+<script src="{% static 'js/i18n.js' %}"></script>
 </body>
 </html>

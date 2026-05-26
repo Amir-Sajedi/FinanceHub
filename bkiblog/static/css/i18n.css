@@ -1,0 +1,262 @@
+/* ===================================
+   Internationalization & RTL Support
+   =================================== */
+
+/* IRANSans Font Family */
+@font-face {
+    font-family: 'IRANSans';
+    src: url('../fonts/IRANSans-Light.woff2') format('woff2'),
+         url('../fonts/IRANSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IRANSans';
+    src: url('../fonts/IRANSans-Regular.woff2') format('woff2'),
+         url('../fonts/IRANSans-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IRANSans';
+    src: url('../fonts/IRANSans-Medium.woff2') format('woff2'),
+         url('../fonts/IRANSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IRANSans';
+    src: url('../fonts/IRANSans-Bold.woff2') format('woff2'),
+         url('../fonts/IRANSans-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* RTL Layout */
+html[dir="rtl"] {
+    direction: rtl;
+}
+
+html[dir="rtl"] body {
+    font-family: 'IRANSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    text-align: right;
+}
+
+html[dir="ltr"] body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    text-align: left;
+}
+
+/* RTL Navigation */
+html[dir="rtl"] .nav-container {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .nav-brand {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .nav-links {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .hub-btn {
+    flex-direction: row-reverse;
+}
+
+/* RTL Welcome Banner */
+html[dir="rtl"] .welcome-banner-inner {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .welcome-text {
+    align-items: flex-end;
+}
+
+/* RTL Forms */
+html[dir="rtl"] .input-container input {
+    padding: 0.75rem 2.75rem 0.75rem 1rem;
+    text-align: right;
+}
+
+html[dir="rtl"] .field-icon {
+    left: auto;
+    right: 0.9rem;
+}
+
+html[dir="rtl"] .form-extras {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .checkbox-label {
+    flex-direction: row-reverse;
+}
+
+/* Language Switcher */
+.language-switcher {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lang-toggle-btn {
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%);
+    border: 1.5px solid rgba(20, 184, 166, 0.3);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lang-toggle-btn:hover {
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.15) 0%, rgba(56, 189, 248, 0.15) 100%);
+    border-color: var(--primary-green);
+    transform: translateY(-1px);
+}
+
+.lang-toggle-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.lang-flag {
+    font-size: 1.2rem;
+}
+
+/* Toast Notification for Errors */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 400px;
+}
+
+html[dir="rtl"] .toast-container {
+    right: auto;
+    left: 20px;
+}
+
+.toast {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideIn 0.3s ease;
+    border-left: 4px solid;
+}
+
+html[dir="rtl"] .toast {
+    border-left: none;
+    border-right: 4px solid;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.error {
+    border-color: #ef4444;
+}
+
+.toast.success {
+    border-color: #10b981;
+}
+
+.toast.info {
+    border-color: #3b82f6;
+}
+
+.toast-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+}
+
+.toast-icon.error {
+    color: #ef4444;
+}
+
+.toast-icon.success {
+    color: #10b981;
+}
+
+.toast-icon.info {
+    color: #3b82f6;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.toast-message {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.toast-close:hover {
+    color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .toast-container {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    html[dir="rtl"] .toast-container {
+        left: 10px;
+        right: 10px;
+    }
+}

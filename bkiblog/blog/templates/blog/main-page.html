@@ -9,7 +9,7 @@
     <div class="welcome-banner-inner">
         <div class="welcome-avatar">{{ user.username|slice:":1"|upper }}</div>
         <div class="welcome-text">
-            <span class="welcome-greeting">Welcome back</span>
+            <span class="welcome-greeting" data-i18n="welcome.back">Welcome back</span>
             <span class="welcome-name">{{ user.username }}</span>
         </div>
     </div>
@@ -17,18 +17,37 @@
 {% endif %}
 
     <header class="hero">
+        <div class="hero-logo-container">
+            <div class="finance-hub-logo-3d">
+                <div class="logo-3d-layer front">
+                    <div class="logo-text-3d">
+                        <span class="main">FH</span>
+                        <span class="sub">HUB</span>
+                    </div>
+                </div>
+                <div class="logo-3d-layer back">
+                    <div class="logo-text-3d">
+                        <span class="main">FH</span>
+                    </div>
+                </div>
+                <div class="logo-3d-layer right"></div>
+                <div class="logo-3d-layer left"></div>
+                <div class="logo-3d-layer top"></div>
+                <div class="logo-3d-layer bottom"></div>
+            </div>
+        </div>
         <div class="hero-content">
-            <h1>Welcome to Keshavarzi Finance Hub</h1>
-            <p>Your comprehensive financial management platform for currency exchange, precious metals tracking, and secure savings management.</p>
+            <h1 data-i18n="hero.title">Welcome to Finance Hub</h1>
+            <p data-i18n="hero.subtitle">Your comprehensive financial management platform for currency exchange, precious metals tracking, and secure savings management.</p>
             <div class="hero-actions">
-                <a href="{% url 'converter' %}" class="manage-funds-btn">Manage Your Funds</a>
+                <a href="{% url 'converter' %}" class="manage-funds-btn" data-i18n="hero.cta">Manage Your Funds</a>
             </div>
         </div>
     </header>
 
     <main class="container">
         <section id="features" class="features-section">
-            <h2 class="section-title">Our Features</h2>
+            <h2 class="section-title" data-i18n="features.title">Our Features</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -37,8 +56,8 @@
                             <path d="M12 6v6l4 2"/>
                         </svg>
                     </div>
-                    <h3>Real-Time Currency Exchange</h3>
-                    <p>Convert between multiple currencies with live exchange rates. Track your conversions and monitor market trends to make informed financial decisions.</p>
+                    <h3 data-i18n="feature1.title">Real-Time Currency Exchange</h3>
+                    <p data-i18n="feature1.desc">Convert between multiple currencies with live exchange rates. Track your conversions and monitor market trends to make informed financial decisions.</p>
                 </div>
 
                 <div class="feature-card">
@@ -48,8 +67,8 @@
                             <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
                         </svg>
                     </div>
-                    <h3>Gold & Silver Converter</h3>
-                    <p>Calculate the value of your precious metals holdings in real-time. Convert between grams, ounces, and currency values with up-to-date market prices.</p>
+                    <h3 data-i18n="feature2.title">Gold & Silver Converter</h3>
+                    <p data-i18n="feature2.desc">Calculate the value of your precious metals holdings in real-time. Convert between grams, ounces, and currency values with up-to-date market prices.</p>
                 </div>
 
                 <div class="feature-card">
@@ -59,25 +78,25 @@
                             <path d="M3 9h18M9 21V9"/>
                         </svg>
                     </div>
-                    <h3>Total Saved Balance</h3>
-                    <p>View your complete financial overview in one place. Track all your assets, conversions, and savings with detailed analytics and historical data.</p>
+                    <h3 data-i18n="feature3.title">Total Saved Balance</h3>
+                    <p data-i18n="feature3.desc">View your complete financial overview in one place. Track all your assets, conversions, and savings with detailed analytics and historical data.</p>
                 </div>
             </div>
         </section>
 
         <section id="about" class="info-section">
             <div class="info-content">
-                <h2>About Us</h2>
-                <p>Keshavarzi Finance Hub is a modern financial management platform designed to simplify your currency exchange and precious metals tracking needs. We provide secure, reliable, and user-friendly tools to help you manage your financial assets with confidence.</p>
-                <p>Our platform combines cutting-edge technology with intuitive design to deliver a seamless experience for both novice and experienced investors.</p>
+                <h2 data-i18n="about.title">About Us</h2>
+                <p data-i18n="about.p1">Finance Hub is a modern financial management platform designed to simplify your currency exchange and precious metals tracking needs. We provide secure, reliable, and user-friendly tools to help you manage your financial assets with confidence.</p>
+                <p data-i18n="about.p2">Our platform combines cutting-edge technology with intuitive design to deliver a seamless experience for both novice and experienced investors.</p>
             </div>
         </section>
 
         <section id="privacy" class="info-section">
             <div class="info-content">
-                <h2>Privacy & Security</h2>
-                <p>Your financial data security is our top priority. We employ industry-standard encryption protocols to protect your information and ensure all transactions are processed through secure channels.</p>
-                <p>We never share your personal data with third parties and maintain strict compliance with international data protection regulations.</p>
+                <h2 data-i18n="privacy.title">Privacy & Security</h2>
+                <p data-i18n="privacy.p1">Your financial data security is our top priority. We employ industry-standard encryption protocols to protect your information and ensure all transactions are processed through secure channels.</p>
+                <p data-i18n="privacy.p2">We never share your personal data with third parties and maintain strict compliance with international data protection regulations.</p>
             </div>
         </section>
     </main>
