@@ -22,12 +22,37 @@
     <div class="hero-content">
         <h1>Currency & Asset Converter</h1>
         <p>Convert currencies and precious metals with real-time market rates. Track your portfolio value across multiple asset classes.</p>
+    <div style="margin-top: 1rem;"><a href="{% url 'networth' %}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;">View Net Worth Tracker</a></div>
     </div>
 </header>
 
 <main class="container">
     <!-- Currency Converter Section -->
     <section class="converter-section">
+        <!-- Live Rates Display -->
+        {% if exchange_rates.usd %}
+        <div class="live-rates-banner" style="background: linear-gradient(135deg, #14b8a6 0%, #38bdf8 100%); padding: 1.25rem 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(20, 184, 166, 0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="background: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div style="color: white; font-size: 0.875rem; opacity: 0.9;">Live USD Rate</div>
+                        <div style="color: white; font-size: 1.5rem; font-weight: 600; line-height: 1.2;">{{ exchange_rates.usd|floatformat:0 }} IRR</div>
+                    </div>
+                </div>
+                <div style="color: white; font-size: 0.875rem; opacity: 0.85; text-align: right;">
+                    <div>1 USD = {{ exchange_rates.usd|floatformat:0 }} IRR</div>
+                    <div style="margin-top: 0.25rem;">Real-time market rate</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
         <h2 class="section-title">Currency Exchange</h2>
         <div class="converter-card">
             {% if error_message %}

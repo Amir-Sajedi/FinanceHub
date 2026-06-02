@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block styling %}
+<link rel="stylesheet" href="{% static 'converter.css' %}">
+<style>
+.networth-chart-container {
+    position: relative;
+    height: 300px;
+    margin-top: var(--spacing-lg);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="welcome-banner">
+    <div class="welcome-banner-inner">
+        <div class="welcome-avatar">{{ user.username|slice:":1"|upper }}</div>
+        <div class="welcome-text">
+            <span class="welcome-greeting">Welcome back</span>
+            <span class="welcome-name">{{ user.username }}</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<header class="hero">
+    <div class="hero-content">
+        <h1>Net Worth Tracker</h1>
+        <p>Track your portfolio value across gold and USD holdings with real-time market rates and historical performance.</p>
+    <div style="margin-top: 1rem;"><a href="{% url 'converter' %}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #14b8a6 0%, #38bdf8 100%); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;">Back to Converter</a></div>
+    </div>
+</header>
+
+<main class="container">
+    {% if error_message %}
+    <div class="error-message" style="background: #fee; color: #c33; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+        {{ error_message }}
+    </div>
+    {% endif %}
+
+    <!-- Net Worth Display Card -->
+    <section class="networth-section">
+        <h2 class="section-title">Current Net Worth</h2>
+        
+        <div class="metal-card">
+            <div class="metal-header">
+                <div class="metal-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <div class="metal-info">
+                    <h3>Total Net Worth</h3>
+                    <p class="metal-price" id="net-worth-display">{{ net_worth|floatformat:0 }} IRR</p>
+                </div>
+            </div>
+
+            <!-- Holdings Input Form -->
+            <div class="metal-form">
+                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--spacing-md);">Update Your Holdings</h4>
+                
+                <form id="holdings-form">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <label for="gold18-input">Gold 18K (grams)</label>
+                        <input type="number" id="gold18-input" name="gold18" step="0.001" min="0" value="{{ holdings.gold18 }}" placeholder="0.000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="gold24-input">Gold 24K (grams)</label>
+                        <input type="number" id="gold24-input" name="gold24" step="0.001" min="0" value="{{ holdings.gold24 }}" placeholder="0.000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="usd-input">US Dollars</label>
+                        <input type="number" id="usd-input" name="usd" step="0.01" min="0" value="{{ holdings.usd }}" placeholder="0.00">
+                    </div>
+                    
+                    <button type="submit" class="convert-btn">Update Holdings</button>
+                </form>
+            </div>
+
+            <!-- Asset Breakdown -->
+            <div style="margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 2px solid var(--border-color);">
+                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--spacing-md);">Asset Breakdown</h4>
+                
+                <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+                    <div class="metal-result">
+                        <div>
+                            <div class="result-label">Gold 18K</div>
+                            <div style="font-size: 0.875rem; color: var(--text-light);">{{ holdings.gold18 }} grams</div>
+                        </div>
+                        <span class="result-value">{{ gold18_value|floatformat:0 }} IRR</span>
+                    </div>
+                    
+                    <div class="metal-result">
+                        <div>
+                            <div class="result-label">Gold 24K</div>
+                            <div style="font-size: 0.875rem; color: var(--text-light);">{{ holdings.gold24 }} grams</div>
+                        </div>
+                        <span class="result-value">{{ gold24_value|floatformat:0 }} IRR</span>
+                    </div>
+                    
+                    <div class="metal-result">
+                        <div>
+                            <div class="result-label">US Dollars</div>
+                            <div style="font-size: 0.875rem; color: var(--text-light);">${{ holdings.usd }}</div>
+                        </div>
+                        <span class="result-value">{{ usd_value|floatformat:0 }} IRR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Net Worth History Chart -->
+    <section class="networth-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+            <h2 class="section-title" style="margin-bottom: 0;">Net Worth History</h2>
+            <button id="save-snapshot-btn" class="convert-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem; margin: 0;">
+                Save Snapshot
+            </button>
+        </div>
+        
+        <div class="metal-card">
+            {% if history_count > 0 %}
+            <div class="networth-chart-container">
+                <canvas id="networth-chart"></canvas>
+            </div>
+            <div style="margin-top: var(--spacing-md); text-align: center; font-size: 0.875rem; color: var(--text-secondary);">
+                Showing {{ history_count }} data point{{ history_count|pluralize }} from the last 30 days
+            </div>
+            {% else %}
+            <div class="networth-placeholder">
+                <div class="placeholder-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <h3>No History Yet</h3>
+                <p>Start tracking your net worth by saving snapshots. Click "Save Snapshot" to record your current holdings and net worth.</p>
+                <div class="placeholder-features">
+                    <div class="placeholder-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 11 12 14 22 4"></polyline>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                        </svg>
+                        <span>Track performance over time</span>
+                    </div>
+                    <div class="placeholder-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                        <span>Visualize net worth trends</span>
+                    </div>
+                    <div class="placeholder-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>Monitor asset allocation</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Current Rates Reference -->
+    {% if exchange_rates %}
+    <section class="networth-section">
+        <h2 class="section-title">Current Market Rates</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md);">
+            {% if exchange_rates.gold_18k %}
+            <div class="metal-result">
+                <div class="result-label">Gold 18K</div>
+                <span class="result-value" style="font-size: 1.25rem;">{{ exchange_rates.gold_18k.price|floatformat:0 }} IRR/g</span>
+            </div>
+            {% endif %}
+            
+            {% if exchange_rates.gold_24k %}
+            <div class="metal-result">
+                <div class="result-label">Gold 24K</div>
+                <span class="result-value" style="font-size: 1.25rem;">{{ exchange_rates.gold_24k.price|floatformat:0 }} IRR/g</span>
+            </div>
+            {% endif %}
+            
+            {% if exchange_rates.usd %}
+            <div class="metal-result">
+                <div class="result-label">USD</div>
+                <span class="result-value" style="font-size: 1.25rem;">{{ exchange_rates.usd|floatformat:0 }} IRR</span>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Chart.js setup
+{% if history_count > 0 %}
+const ctx = document.getElementById('networth-chart').getContext('2d');
+const chartData = {{ chart_data|safe }};
+
+// Parse chart data safely
+let labels = [];
+let values = [];
+try {
+    labels = typeof chartData.labels === 'string' ? JSON.parse(chartData.labels) : chartData.labels;
+    values = typeof chartData.values === 'string' ? JSON.parse(chartData.values) : chartData.values;
+} catch(e) {
+    labels = chartData.labels || [];
+    values = chartData.values || [];
+}
+
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Net Worth (IRR)',
+            data: values,
+            borderColor: 'rgb(139, 92, 246)',
+            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: 'rgb(139, 92, 246)',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return 'Net Worth: ' + context.parsed.y.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' IRR';
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return value.toLocaleString('en-US', {maximumFractionDigits: 0});
+                    }
+                }
+            }
+        }
+    }
+});
+{% endif %}
+
+// Form submission handler
+document.getElementById('holdings-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    formData.append('action', 'update_holdings');
+    
+    try {
+        const response = await fetch('{% url "networth" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            alert('Holdings updated successfully! Refreshing...');
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        alert('An error occurred: ' + error.message);
+    }
+});
+
+// Save snapshot handler
+document.getElementById('save-snapshot-btn').addEventListener('click', async function() {
+    const formData = new FormData();
+    formData.append('action', 'save_snapshot');
+    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+    
+    this.disabled = true;
+    this.textContent = 'Saving...';
+    
+    try {
+        const response = await fetch('{% url "networth" %}', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            alert('Snapshot saved successfully! Refreshing...');
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
+            this.disabled = false;
+            this.textContent = 'Save Snapshot';
+        }
+    } catch (error) {
+        alert('An error occurred: ' + error.message);
+        this.disabled = false;
+        this.textContent = 'Save Snapshot';
+    }
+});
+
+// Real-time net worth calculation as user types
+const gold18Input = document.getElementById('gold18-input');
+const gold24Input = document.getElementById('gold24-input');
+const usdInput = document.getElementById('usd-input');
+const netWorthDisplay = document.getElementById('net-worth-display');
+
+const exchangeRates = {
+    gold18: {{ exchange_rates.gold_18k.price|default:0 }},
+    gold24: {{ exchange_rates.gold_24k.price|default:0 }},
+    usd: {{ exchange_rates.usd|default:0 }}
+};
+
+function updateNetWorth() {
+    const gold18 = parseFloat(gold18Input.value) || 0;
+    const gold24 = parseFloat(gold24Input.value) || 0;
+    const usd = parseFloat(usdInput.value) || 0;
+    
+    const netWorth = (gold18 * exchangeRates.gold18) + 
+                     (gold24 * exchangeRates.gold24) + 
+                     (usd * exchangeRates.usd);
+    
+    netWorthDisplay.textContent = netWorth.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' IRR';
+}
+
+gold18Input.addEventListener('input', updateNetWorth);
+gold24Input.addEventListener('input', updateNetWorth);
+usdInput.addEventListener('input', updateNetWorth);
+</script>
+{% endblock %}
