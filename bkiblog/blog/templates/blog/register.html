@@ -1,3 +1,4 @@
+
 {% load static %}
 
 {% block styling %}
@@ -10,12 +11,14 @@
             <div class="card-header">
                 <div class="logo-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                        <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="8.5" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        <line x1="20" y1="8" x2="20" y2="14" stroke="currentColor" stroke-width="2"/>
+                        <line x1="17" y1="11" x2="23" y2="11" stroke="currentColor" stroke-width="2"/>
                     </svg>
                 </div>
-                <h1>Welcome!</h1>
-                <p>Sign in to continue</p>
+                <h1>Create Account</h1>
+                <p>Join Keshavarzi Finance Hub</p>
             </div>
 
             {% if messages %}
@@ -31,7 +34,16 @@
             <form method="POST" class="login-form">
                 {% csrf_token %}
                 
-                {% for field in form %}
+                <div class="password-requirements" style="background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); padding: 0.875rem 1rem; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 0.5rem;">
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 500;">Password Requirements:</p>
+                    <ul style="font-size: 0.75rem; color: var(--text-secondary); margin: 0; padding-left: 1.25rem; line-height: 1.6;">
+                        <li>At least 8 characters long</li>
+                        <li>Contains at least one letter (a-z, A-Z)</li>
+                        <li>Contains at least one number (0-9)</li>
+                    </ul>
+                </div>
+                
+                {% for field in user_form %}
                     <div class="form-field">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         <div class="input-container">
@@ -46,6 +58,16 @@
                                         <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/>
                                     </svg>
+                                {% elif 'email' in field.name %}
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                {% elif 'first_name' in field.name %}
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
                                 {% endif %}
                             </span>
                         </div>
@@ -59,30 +81,22 @@
                     </div>
                 {% endfor %}
 
-                {% if form.non_field_errors %}
+                {% if user_form.non_field_errors %}
                     <div class="form-errors">
-                        {% for error in form.non_field_errors %}
+                        {% for error in user_form.non_field_errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% endif %}
 
-                <div class="form-extras">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="remember">
-                        <span>Remember me</span>
-                    </label>
-                    <a href="{% url 'password_reset' %}" class="link-text">Forgot password?</a>
-                </div>
-
                 <button type="submit" class="btn-submit">
-                    Sign In
+                    Create Account
                 </button>
             </form>
 
             <div class="card-footer">
-                <span>Don't have an account?</span>
-                <a href="{% url 'register' %}">Create one</a>
+                <span>Already have an account?</span>
+                <a href="{% url 'login' %}">Sign in</a>
             </div>
         </div>
     </div>
