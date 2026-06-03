@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keshavarzi Finance Hub</title>
+    <title>Financehub</title>
     <link rel="stylesheet" href="{% static 'blog/index.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,8 +16,8 @@
 <nav class="navbar">
     <div class="nav-container">
         <div class="nav-brand">
-            <div class="brand-logo">F</div>
-            <span class="brand-text">Keshavarzi finance hub</span>
+            <a href="{% url 'home' %}" class="brand-logo" aria-label="Go to main page">F</a>
+            <span class="brand-text">Financehub</span>
         </div>
         <ul class="nav-links">
             <li><a href="{% url 'home' %}">Home</a></li>
@@ -51,7 +51,7 @@
 {% block content %}{% endblock %}
 
 <footer class="footer">
-    <p>&copy; 2026 Keshavarzi finance hub. All rights reserved.</p>
+    <p>&copy; 2026 Financehub. All rights reserved.</p>
 </footer>
 </body>
 </html>
