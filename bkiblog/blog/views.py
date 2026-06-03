@@ -11,23 +11,23 @@ class MainPageView(TemplateView):
 
 
 def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            user = authenticate(
-                request, username=data['username'], password=data['password']
-            )
-            if user is not None:
-                    login(request, user)
-                    return redirect('home')
-            else:
-                return HttpResponse("invalid login")
+        if request.method == 'POST':
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                user = authenticate(
+                    request, username=data['username'], password=data['password']
+                )
+                if user is not None:
+                        login(request, user)
+                        return redirect('home')
+                else:
+                    form.add_error(None, 'Invalid Username or Password.')
+        
+        else:
+            form = LoginForm()
     
-    else:
-        form = LoginForm()
-    
-    return render(request, 'blog/login.html', {'form':form})
+        return render(request, 'blog/login.html', {'form':form})
 
 
 def user_settings(request):
