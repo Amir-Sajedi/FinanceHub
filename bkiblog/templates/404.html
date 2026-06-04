@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<header class="hero">
+    <div class="hero-content">
+        <h1>404 - Page Not Found</h1>
+        <p>We couldn't find the page you're looking for. The link may be broken or the page may have moved.</p>
+        <div class="hero-actions">
+            <a href="{% url 'home' %}" class="manage-funds-btn">Back to Home</a>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <section class="features-section">
+        <h2 class="section-title">Popular destinations</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7"/>
+                        <path d="M9 22V12h6v10"/>
+                        <path d="M21 22H3"/>
+                    </svg>
+                </div>
+                <h3>Home</h3>
+                <p>Return to the Finance Hub landing page.</p>
+                <div style="margin-top: var(--spacing-md);">
+                    <a href="{% url 'home' %}" class="manage-funds-btn">Go Home</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                </div>
+                <h3>Converter Hub</h3>
+                <p>Access live currency exchange and metals pricing tools.</p>
+                <div style="margin-top: var(--spacing-md);">
+                    <a href="{% url 'converter' %}" class="manage-funds-btn">Open Hub</a>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 22a8 8 0 0 1 16 0"/>
+                    </svg>
+                </div>
+                <h3>Sign In</h3>
+                <p>Log in to manage your account and personalized settings.</p>
+                <div style="margin-top: var(--spacing-md);">
+                    <a href="{% url 'login' %}" class="signup-btn">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

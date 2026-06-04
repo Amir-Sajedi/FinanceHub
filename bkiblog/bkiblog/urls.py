@@ -22,3 +22,5 @@ urlpatterns = [
     path('', include("blog.urls") ),
     path('hub/', include("conversionapp.urls"))
 ]
+
+handler404 = "blog.views.custom_404"
