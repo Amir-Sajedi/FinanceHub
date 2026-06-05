@@ -57,14 +57,14 @@
     }
 
     .nav-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: var(--spacing-sm) var(--spacing-md);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    justify-content: flex-start;  /* changed from space-between */
+    align-items: center;
+    gap: var(--spacing-md);
+}
     .nav-brand {
         display: flex;
         align-items: center;
@@ -494,13 +494,12 @@
     .logout-form-btn {
         background: none;
         border: none;
-        color: inherit;
-        font-family: inherit;
-        font-size: inherit;
         cursor: pointer;
         padding: 0;
         text-decoration: none;
         display: inline;
+        list-style: none;
+        gap: var(--spacing-xs);
     }
 .hub-btn {
     background: var(--gradient-vibrant) !important;
@@ -512,7 +511,7 @@
     transition: var(--transition);
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .hub-btn:hover {
@@ -534,3 +533,36 @@
     outline: 2px solid var(--primary-green);
     outline-offset: 2px;
 }
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-left: auto; /* ensures it stays pinned to the right */
+}
+.nav-link-btn{
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+    margin: 1rem;
+}
+
+.nav-link-btn:hover {
+    color: var(--text-primary);
+}
+.hub-btn,
+.nav-links a,
+.nav-link-btn,
+.signup-btn {
+    text-decoration: none;
+}
+
+.nav-link-button:hover {
+        color: var(--primary-green);
+        background: linear-gradient(135deg, rgba(20, 184, 166, 0.12) 0%, rgba(56, 189, 248, 0.12) 100%);
+        border-radius: 12px;
+    }

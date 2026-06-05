@@ -19,34 +19,39 @@
             <a href="{% url 'home' %}" class="brand-logo" aria-label="Go to main page">F</a>
             <span class="brand-text">Finance Hub</span>
         </div>
+
         <ul class="nav-links">
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'home' %}#about">About</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'settings' %}">Settings</a></li>
-                <li>
-                    <a href="/hub" class="hub-btn" aria-label="Go to Financial Hub">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <rect x="3" y="3" width="7" height="7"/>
-                            <rect x="14" y="3" width="7" height="7"/>
-                            <rect x="14" y="14" width="7" height="7"/>
-                            <rect x="3" y="14" width="7" height="7"/>
-                        </svg>
-                        Hub
-                    </a>
-                </li>
-                <li>
-                    <form method="post" action="{% url 'logout' %}" style="display: inline; margin: 0;">
-                        {% csrf_token %}
-                        <button type="submit" class="signup-btn logout-form-btn">Logout</button>
-                    </form>
-                </li>
-            {% else %}
-                <li><a href="{% url 'login' %}" class="signup-btn">Sign Up</a></li>
             {% endif %}
         </ul>
+
+        {% if user.is_authenticated %}
+        <div class="right-section">
+            <a href="/hub" class="hub-btn" aria-label="Go to Financial Hub">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                Hub
+            </a>
+            <form method="post" action="{% url 'logout' %}" style="display: inline; margin: 0;">
+    {% csrf_token %}
+    <button type="submit" class="nav-link-btn">Logout</button>
+</form>
+        </div>
+        {% else %}
+        <div class="right-section">
+            <a href="{% url 'login' %}" class="signup-btn">Sign Up</a>
+        </div>
+        {% endif %}
     </div>
 </nav>
+
 
 {% block content %}{% endblock %}
 
