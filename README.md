@@ -1,5 +1,5 @@
 # FinanceHub
-
+The Demo is now active on [Finance Hub demo](alphex.pythonanywhere.com)
 ## Overview
 
 FinanceHub is a comprehensive Django-based financial tracking and conversion platform designed to provide real-time market data for precious metals and currencies. The application offers user authentication, a universal conversion dashboard, and a personal net worth tracking system that aggregates holdings across multiple asset classes.
