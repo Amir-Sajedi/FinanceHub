@@ -271,7 +271,20 @@
 
 <script>
 // Pass exchange rates to JavaScript
-const exchangeRates = {{ exchange_rates|safe }};
+const exchangeRates = {
+    {% if exchange_rates.usd %}
+    usd: {{ exchange_rates.usd }},
+    {% endif %}
+    {% if exchange_rates.gold_18k %}
+    gold_18k: { price: {{ exchange_rates.gold_18k.price }} },
+    {% endif %}
+    {% if exchange_rates.gold_24k %}
+    gold_24k: { price: {{ exchange_rates.gold_24k.price }} },
+    {% endif %}
+    {% if exchange_rates.silver_gram %}
+    silver_gram: { price: {{ exchange_rates.silver_gram.price }} }
+    {% endif %}
+};
 
 // Unit conversion factors (to grams)
 const unitConversions = {
@@ -290,31 +303,39 @@ document.querySelector('.convert-btn').addEventListener('click', function() {
     let rate = 0;
     
     // Get rates (all prices are in IRR per unit)
-    const usdRate = exchangeRates.usd?.price || 0;
-    const iqdRate = exchangeRates.iqd?.price || 0;
+    const usdRate = exchangeRates.usd || 0;
+    const iqdRate = 1310; // Fixed IQD rate (approximate)
     
     // Conversion logic
     if (fromCurrency === toCurrency) {
         result = amount;
         rate = 1;
-    } else if (fromCurrency === 'IRR' && toCurrency === 'USD') {
+    } else if (fromCurrency === 'IRR' && toCurrency === 'USD' && usdRate > 0) {
         result = amount / usdRate;
         rate = 1 / usdRate;
-    } else if (fromCurrency === 'IRR' && toCurrency === 'IQD') {
+    } else if (fromCurrency === 'IRR' && toCurrency === 'IQD' && usdRate > 0) {
         result = amount / iqdRate;
         rate = 1 / iqdRate;
-    } else if (fromCurrency === 'USD' && toCurrency === 'IRR') {
+    } else if (fromCurrency === 'USD' && toCurrency === 'IRR' && usdRate > 0) {
         result = amount * usdRate;
         rate = usdRate;
-    } else if (fromCurrency === 'USD' && toCurrency === 'IQD') {
+    } else if (fromCurrency === 'USD' && toCurrency === 'IQD' && usdRate > 0) {
         result = (amount * usdRate) / iqdRate;
         rate = usdRate / iqdRate;
-    } else if (fromCurrency === 'IQD' && toCurrency === 'IRR') {
+    } else if (fromCurrency === 'IQD' && toCurrency === 'IRR' && usdRate > 0) {
         result = amount * iqdRate;
         rate = iqdRate;
-    } else if (fromCurrency === 'IQD' && toCurrency === 'USD') {
+    } else if (fromCurrency === 'IQD' && toCurrency === 'USD' && usdRate > 0) {
         result = (amount * iqdRate) / usdRate;
         rate = iqdRate / usdRate;
+    } else {
+        // Handle case where rates are not available
+        result = 0;
+        rate = 0;
+        document.getElementById('exchange-rate-display').textContent = 
+            'Exchange rates unavailable. Please refresh the page.';
+        document.getElementById('result-value').textContent = '0.00';
+        return;
     }
     
     document.getElementById('result-value').textContent = result.toLocaleString('en-US', {
@@ -338,6 +359,11 @@ document.querySelector('.swap-btn').addEventListener('click', function() {
 function calculateMetal(inputId, unitId, resultId, pricePerGram) {
     const input = document.getElementById(inputId);
     const unitSelect = document.getElementById(unitId);
+    
+    if (!pricePerGram || pricePerGram <= 0) {
+        console.warn(`Invalid price for ${inputId}: ${pricePerGram}`);
+        return;
+    }
     
     if (!input || !unitSelect) return;
     
@@ -367,8 +393,8 @@ if (exchangeRates.gold_24k) {
 }
 
 // Silver calculator
-if (exchangeRates.silver) {
-    calculateMetal('silver-amount', 'silver-unit', 'silver-result', exchangeRates.silver.price);
+if (exchangeRates.silver_gram) {
+    calculateMetal('silver-amount', 'silver-unit', 'silver-result', exchangeRates.silver_gram.price);
 }
 </script>
 {% endblock %}
