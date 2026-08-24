@@ -1,4 +1,4 @@
-    :root {
+:root {
         --primary-green: #14b8a6;
         --primary-green-dark: #0f766e;
         --primary-green-light: #5eead4;
@@ -379,6 +379,17 @@
             justify-content: center;
         }
 
+        /* Fix: neutralize the desktop auto-margin that pins this section
+           to the right, which breaks alignment once nav-container becomes
+           a column on mobile. Let it take the full width and center its
+           buttons (Hub / logout) instead. */
+        .right-section {
+            margin-left: 0;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .hero h1 {
             font-size: 2rem;
         }
@@ -537,7 +548,7 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-    margin-left: auto; /* ensures it stays pinned to the right */
+    margin-left: auto; /* ensures it stays pinned to the right on desktop */
 }
 .nav-link-btn{
     background: none;
