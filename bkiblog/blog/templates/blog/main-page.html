@@ -1,20 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block styling %}{% endblock %}
-
 {% block content %}
-    {% if user.is_authenticated %}
-<div class="welcome-banner">
-    <div class="welcome-banner-inner">
-        <div class="welcome-avatar">{{ user.username|slice:":1"|upper }}</div>
-        <div class="welcome-text">
-            <span class="welcome-greeting">Welcome back</span>
-            <span class="welcome-name">{{ user.username }}</span>
-        </div>
-    </div>
-</div>
-{% endif %}
+    {% include "partials/welcome_banner.html" %}
 
     <header class="hero">
         <div class="hero-content">

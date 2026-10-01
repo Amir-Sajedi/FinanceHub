@@ -1,41 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block styling %}
-<link rel="stylesheet" href="{% static 'converter.css' %}">
-<style>
-.networth-chart-container {
-    position: relative;
-    height: 300px;
-    margin-top: var(--spacing-lg);
-}
-</style>
-{% endblock %}
-
 {% block content %}
-{% if user.is_authenticated %}
-<div class="welcome-banner">
-    <div class="welcome-banner-inner">
-        <div class="welcome-avatar">{{ user.username|slice:":1"|upper }}</div>
-        <div class="welcome-text">
-            <span class="welcome-greeting">Welcome back</span>
-            <span class="welcome-name">{{ user.username }}</span>
-        </div>
-    </div>
-</div>
-{% endif %}
+{% include "partials/welcome_banner.html" %}
 
 <header class="hero">
     <div class="hero-content">
         <h1>Net Worth Tracker</h1>
         <p>Track your portfolio value across gold and USD holdings with real-time market rates and historical performance.</p>
-    <div style="margin-top: 1rem;"><a href="{% url 'converter' %}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #14b8a6 0%, #38bdf8 100%); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;">Back to Converter</a></div>
+        <div class="hero-actions">
+            <a href="{% url 'converter' %}" class="btn btn-secondary">Back to Converter</a>
+        </div>
     </div>
 </header>
 
 <main class="container">
     {% if error_message %}
-    <div class="error-message" style="background: #fee; color: #c33; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+    <div class="error-message" role="alert">
         {{ error_message }}
     </div>
     {% endif %}
@@ -46,23 +27,23 @@
         
         <div class="metal-card">
             <div class="metal-header">
-                <div class="metal-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="metal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <line x1="12" y1="1" x2="12" y2="23"></line>
                         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                     </svg>
                 </div>
                 <div class="metal-info">
                     <h3>Total Net Worth</h3>
-                    <p class="metal-price" id="net-worth-display">{{ net_worth|floatformat:0 }} IRR</p>
+                    <p class="networth-figure" id="net-worth-display">{{ net_worth|floatformat:"0g" }} IRR</p>
                 </div>
             </div>
 
             <!-- Holdings Input Form -->
             <div class="metal-form">
-                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--spacing-md);">Update Your Holdings</h4>
+                <h4 class="subhead">Update Your Holdings</h4>
                 
-                <form id="holdings-form">
+                <form id="holdings-form" class="holdings-form">
                     {% csrf_token %}
                     <div class="input-group">
                         <label for="gold18-input">Gold 18K (grams)</label>
@@ -84,32 +65,32 @@
             </div>
 
             <!-- Asset Breakdown -->
-            <div style="margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 2px solid var(--border-color);">
-                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--spacing-md);">Asset Breakdown</h4>
+            <div class="divided">
+                <h4 class="subhead">Asset Breakdown</h4>
                 
-                <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+                <div class="stack">
                     <div class="metal-result">
                         <div>
                             <div class="result-label">Gold 18K</div>
-                            <div style="font-size: 0.875rem; color: var(--text-light);">{{ holdings.gold18 }} grams</div>
+                            <div class="muted">{{ holdings.gold18 }} grams</div>
                         </div>
-                        <span class="result-value">{{ gold18_value|floatformat:0 }} IRR</span>
+                        <span class="result-value">{{ gold18_value|floatformat:"0g" }} IRR</span>
                     </div>
                     
                     <div class="metal-result">
                         <div>
                             <div class="result-label">Gold 24K</div>
-                            <div style="font-size: 0.875rem; color: var(--text-light);">{{ holdings.gold24 }} grams</div>
+                            <div class="muted">{{ holdings.gold24 }} grams</div>
                         </div>
-                        <span class="result-value">{{ gold24_value|floatformat:0 }} IRR</span>
+                        <span class="result-value">{{ gold24_value|floatformat:"0g" }} IRR</span>
                     </div>
                     
                     <div class="metal-result">
                         <div>
                             <div class="result-label">US Dollars</div>
-                            <div style="font-size: 0.875rem; color: var(--text-light);">${{ holdings.usd }}</div>
+                            <div class="muted">${{ holdings.usd }}</div>
                         </div>
-                        <span class="result-value">{{ usd_value|floatformat:0 }} IRR</span>
+                        <span class="result-value">{{ usd_value|floatformat:"0g" }} IRR</span>
                     </div>
                 </div>
             </div>
@@ -118,9 +99,9 @@
 
     <!-- Net Worth History Chart -->
     <section class="networth-section">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
-            <h2 class="section-title" style="margin-bottom: 0;">Net Worth History</h2>
-            <button id="save-snapshot-btn" class="convert-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem; margin: 0;">
+        <div class="section-head">
+            <h2 class="section-title">Net Worth History</h2>
+            <button id="save-snapshot-btn" class="convert-btn btn-sm">
                 Save Snapshot
             </button>
         </div>
@@ -130,13 +111,13 @@
             <div class="networth-chart-container">
                 <canvas id="networth-chart"></canvas>
             </div>
-            <div style="margin-top: var(--spacing-md); text-align: center; font-size: 0.875rem; color: var(--text-secondary);">
+            <div class="chart-caption">
                 Showing {{ history_count }} data point{{ history_count|pluralize }} from the last 30 days
             </div>
             {% else %}
             <div class="networth-placeholder">
-                <div class="placeholder-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="placeholder-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                     </svg>
                 </div>
@@ -144,20 +125,20 @@
                 <p>Start tracking your net worth by saving snapshots. Click "Save Snapshot" to record your current holdings and net worth.</p>
                 <div class="placeholder-features">
                     <div class="placeholder-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <polyline points="9 11 12 14 22 4"></polyline>
                             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                         </svg>
                         <span>Track performance over time</span>
                     </div>
                     <div class="placeholder-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                         </svg>
                         <span>Visualize net worth trends</span>
                     </div>
                     <div class="placeholder-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <circle cx="12" cy="12" r="10"></circle>
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
@@ -173,25 +154,25 @@
     {% if exchange_rates %}
     <section class="networth-section">
         <h2 class="section-title">Current Market Rates</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md);">
+        <div class="rates-grid">
             {% if exchange_rates.gold_18k %}
             <div class="metal-result">
                 <div class="result-label">Gold 18K</div>
-                <span class="result-value" style="font-size: 1.25rem;">{{ exchange_rates.gold_18k.price|floatformat:0 }} IRR/g</span>
+                <span class="result-value">{{ exchange_rates.gold_18k.price|floatformat:"0g" }} IRR/g</span>
             </div>
             {% endif %}
             
             {% if exchange_rates.gold_24k %}
             <div class="metal-result">
                 <div class="result-label">Gold 24K</div>
-                <span class="result-value" style="font-size: 1.25rem;">{{ exchange_rates.gold_24k.price|floatformat:0 }} IRR/g</span>
+                <span class="result-value">{{ exchange_rates.gold_24k.price|floatformat:"0g" }} IRR/g</span>
             </div>
             {% endif %}
             
             {% if exchange_rates.usd %}
             <div class="metal-result">
                 <div class="result-label">USD</div>
-                <span class="result-value" style="font-size: 1.25rem;">{{ exchange_rates.usd|floatformat:0 }} IRR</span>
+                <span class="result-value">{{ exchange_rates.usd|floatformat:"0g" }} IRR</span>
             </div>
             {% endif %}
         </div>
@@ -217,6 +198,8 @@ try {
     values = chartData.values || [];
 }
 
+Chart.defaults.font.family = '"IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
+Chart.defaults.color = '#686b82';
 const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -224,13 +207,13 @@ const chart = new Chart(ctx, {
         datasets: [{
             label: 'Net Worth (IRR)',
             data: values,
-            borderColor: 'rgb(139, 92, 246)',
-            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-            tension: 0.4,
+            borderColor: '#7132f5',
+            backgroundColor: 'rgba(113, 50, 245, 0.08)',
+            tension: 0.3,
             fill: true,
             pointRadius: 4,
             pointHoverRadius: 6,
-            pointBackgroundColor: 'rgb(139, 92, 246)',
+            pointBackgroundColor: '#7132f5',
             pointBorderColor: '#fff',
             pointBorderWidth: 2,
         }]
@@ -251,8 +234,14 @@ const chart = new Chart(ctx, {
             }
         },
         scales: {
+            x: {
+                grid: { display: false },
+                border: { color: '#dedee5' }
+            },
             y: {
                 beginAtZero: true,
+                grid: { color: '#dedee5' },
+                border: { display: false },
                 ticks: {
                     callback: function(value) {
                         return value.toLocaleString('en-US', {maximumFractionDigits: 0});

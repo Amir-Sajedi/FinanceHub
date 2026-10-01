@@ -1,9 +1,5 @@
-
+{% extends "base.html" %}
 {% load static %}
-
-{% block styling %}
-    <link rel="stylesheet" href="{% static 'blog/login.css' %}">
-{% endblock %}
 
 {% block content %}
     <div class="login-container">
@@ -34,9 +30,9 @@
             <form method="POST" class="login-form">
                 {% csrf_token %}
                 
-                <div class="password-requirements" style="background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); padding: 0.875rem 1rem; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 0.5rem;">
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 500;">Password Requirements:</p>
-                    <ul style="font-size: 0.75rem; color: var(--text-secondary); margin: 0; padding-left: 1.25rem; line-height: 1.6;">
+                <div class="password-requirements">
+                    <h4>Password requirements</h4>
+                    <ul>
                         <li>At least 8 characters long</li>
                         <li>Contains at least one letter (a-z, A-Z)</li>
                         <li>Contains at least one number (0-9)</li>
