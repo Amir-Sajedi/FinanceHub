@@ -1,90 +1,94 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static persian %}
+
+{% block title %}مبدل ارز و دارایی | فاینانس‌هاب{% endblock %}
 
 {% block content %}
 {% include "partials/welcome_banner.html" %}
 
 <header class="hero">
-    <div class="hero-content">
-        <h1>Currency & Asset Converter</h1>
-        <p>Convert currencies and precious metals with real-time market rates. Track your portfolio value across multiple asset classes.</p>
-        <div class="hero-actions">
-            <a href="{% url 'networth' %}" class="btn btn-primary">View Net Worth Tracker</a>
+    <div class="hero-frame">
+        <div class="hero-content">
+            <span class="eyebrow">مبدل</span>
+            <h1>مبدل ارز و دارایی</h1>
+            <p>ارزها و فلزات گران‌بها را با نرخ‌های لحظه‌ای بازار تبدیل کنید و ارزش دارایی‌تان را ببینید.</p>
+            <div class="hero-actions">
+                <a href="{% url 'networth' %}" class="btn btn-primary">مشاهده ارزش خالص دارایی</a>
+            </div>
         </div>
     </div>
 </header>
 
 <main class="container">
-    <!-- Currency Converter Section -->
     <section class="converter-section">
-        <!-- Live Rates Display -->
         {% if exchange_rates.usd %}
         <div class="rate-banner">
             <div>
-                <div class="rate-label">Live USD rate</div>
-                <div class="rate-value">{{ exchange_rates.usd|floatformat:"0g" }} IRR</div>
+                <div class="rate-label">نرخ لحظه‌ای دلار</div>
+                <div class="rate-value num"><bdi>{{ exchange_rates.usd|fa_price }}</bdi> ریال</div>
             </div>
             <div class="rate-note">
-                <div>1 USD = {{ exchange_rates.usd|floatformat:"0g" }} IRR</div>
-                <div>Real-time market rate</div>
+                <div><span class="num">۱</span> دلار آمریکا = <span class="num"><bdi>{{ exchange_rates.usd|fa_price }}</bdi></span> ریال</div>
+                {% if exchange_rates.iqd %}
+                <div><span class="num">۱</span> دینار عراقی = <span class="num"><bdi>{{ exchange_rates.iqd|fa_price }}</bdi></span> ریال (<span class="num">۱</span> دلار = <span class="num"><bdi>۱۳۱۰</bdi></span> دینار)</div>
+                {% endif %}
+                <div>نرخ لحظه‌ای بازار</div>
             </div>
         </div>
         {% endif %}
-        
-        <h2 class="section-title">Currency Exchange</h2>
+
+        <h2 class="section-title">تبدیل ارز</h2>
         <div class="converter-card">
             {% if error_message %}
             <div class="error-message">{{ error_message }}</div>
             {% endif %}
-            
+
             <div class="converter-form">
                 <div class="input-group">
-                    <label for="amount">Amount</label>
-                    <input type="number" id="amount" placeholder="Enter amount" min="0" step="0.01" value="1">
+                    <label for="amount">مبلغ</label>
+                    <input type="text" inputmode="decimal" id="amount" dir="ltr" placeholder="۱٫۰۰" value="۱">
                 </div>
-                
+
                 <div class="currency-selectors">
                     <div class="input-group">
-                        <label for="from-currency">From</label>
+                        <label for="from-currency">از</label>
                         <select id="from-currency">
-                            <option value="IRR">IRR - Iranian Rial</option>
-                            <option value="USD">USD - US Dollar</option>
-                            <option value="IQD">IQD - Iraqi Dinar</option>
+                            <option value="IRR">ریال</option>
+                            <option value="USD">دلار آمریکا</option>
+                            <option value="IQD">دینار عراقی</option>
                         </select>
                     </div>
-                    
-                    <button class="swap-btn" aria-label="Swap currencies">
+
+                    <button class="swap-btn" aria-label="جابه‌جایی ارزها">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
                         </svg>
                     </button>
-                    
+
                     <div class="input-group">
-                        <label for="to-currency">To</label>
+                        <label for="to-currency">به</label>
                         <select id="to-currency">
-                            <option value="USD">USD - US Dollar</option>
-                            <option value="IQD">IQD - Iraqi Dinar</option>
-                            <option value="IRR">IRR - Iranian Rial</option>
+                            <option value="USD">دلار آمریکا</option>
+                            <option value="IQD">دینار عراقی</option>
+                            <option value="IRR">ریال</option>
                         </select>
                     </div>
                 </div>
-                
-                <button class="convert-btn">Convert</button>
-                
+
+                <button class="convert-btn">تبدیل</button>
+
                 <div class="result-display">
-                    <div class="result-label">Converted Amount</div>
-                    <div class="result-value" id="result-value">0.00</div>
-                    <div class="exchange-rate" id="exchange-rate-display">Select currencies to see rate</div>
+                    <div class="result-label">مبلغ تبدیل‌شده</div>
+                    <div class="result-value num" id="result-value">۰٫۰۰</div>
+                    <div class="exchange-rate" id="exchange-rate-display">ارزها را انتخاب کنید تا نرخ نمایش داده شود</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Precious Metals Section -->
     <section class="metals-section">
-        <h2 class="section-title">Precious Metals</h2>
+        <h2 class="section-title">فلزات گران‌بها</h2>
         <div class="metals-grid">
-            <!-- 18K Gold -->
             {% if exchange_rates.gold_18k %}
             <div class="metal-card">
                 <div class="metal-header">
@@ -95,37 +99,31 @@
                         </svg>
                     </div>
                     <div class="metal-info">
-                        <h3>18K Gold</h3>
-                        <p class="metal-price">{{ exchange_rates.gold_18k.price|floatformat:"0g" }} IRR / g</p>
-                        {% if exchange_rates.gold_18k.change %}
-                        <p class="metal-change {% if exchange_rates.gold_18k.change >= 0 %}positive{% else %}negative{% endif %}">
-                            {{ exchange_rates.gold_18k.change|floatformat:2 }}%
-                        </p>
-                        {% endif %}
+                        <h3>طلای ۱۸ عیار</h3>
+                        <p class="metal-price"><span class="num"><bdi>{{ exchange_rates.gold_18k.price|fa_price }}</bdi></span> ریال / گرم</p>
                     </div>
                 </div>
                 <div class="metal-form">
                     <div class="input-group">
-                        <label for="gold18k-amount">Weight</label>
-                        <input type="number" id="gold18k-amount" placeholder="0.00" min="0" step="0.01" data-price="{{ exchange_rates.gold_18k.price }}">
+                        <label for="gold18k-amount">وزن</label>
+                        <input type="text" inputmode="decimal" id="gold18k-amount" dir="ltr" placeholder="۰٫۰۰" data-price="{{ exchange_rates.gold_18k.price }}">
                     </div>
                     <div class="input-group">
-                        <label for="gold18k-unit">Unit</label>
+                        <label for="gold18k-unit">واحد</label>
                         <select id="gold18k-unit">
-                            <option value="g">Grams (g)</option>
-                            <option value="oz">Ounces (oz)</option>
-                            <option value="kg">Kilograms (kg)</option>
+                            <option value="g">گرم</option>
+                            <option value="oz">اونس</option>
+                            <option value="kg">کیلوگرم</option>
                         </select>
                     </div>
                     <div class="metal-result">
-                        <span class="result-label">Value</span>
-                        <span class="result-value" id="gold18k-result">0 IRR</span>
+                        <span class="result-label">ارزش</span>
+                        <span class="result-value num" id="gold18k-result">۰ ریال</span>
                     </div>
                 </div>
             </div>
             {% endif %}
 
-            <!-- 24K Gold -->
             {% if exchange_rates.gold_24k %}
             <div class="metal-card">
                 <div class="metal-header">
@@ -136,37 +134,31 @@
                         </svg>
                     </div>
                     <div class="metal-info">
-                        <h3>24K Gold</h3>
-                        <p class="metal-price">{{ exchange_rates.gold_24k.price|floatformat:"0g" }} IRR / g</p>
-                        {% if exchange_rates.gold_24k.change %}
-                        <p class="metal-change {% if exchange_rates.gold_24k.change >= 0 %}positive{% else %}negative{% endif %}">
-                            {{ exchange_rates.gold_24k.change|floatformat:2 }}%
-                        </p>
-                        {% endif %}
+                        <h3>طلای ۲۴ عیار</h3>
+                        <p class="metal-price"><span class="num"><bdi>{{ exchange_rates.gold_24k.price|fa_price }}</bdi></span> ریال / گرم</p>
                     </div>
                 </div>
                 <div class="metal-form">
                     <div class="input-group">
-                        <label for="gold24k-amount">Weight</label>
-                        <input type="number" id="gold24k-amount" placeholder="0.00" min="0" step="0.01" data-price="{{ exchange_rates.gold_24k.price }}">
+                        <label for="gold24k-amount">وزن</label>
+                        <input type="text" inputmode="decimal" id="gold24k-amount" dir="ltr" placeholder="۰٫۰۰" data-price="{{ exchange_rates.gold_24k.price }}">
                     </div>
                     <div class="input-group">
-                        <label for="gold24k-unit">Unit</label>
+                        <label for="gold24k-unit">واحد</label>
                         <select id="gold24k-unit">
-                            <option value="g">Grams (g)</option>
-                            <option value="oz">Ounces (oz)</option>
-                            <option value="kg">Kilograms (kg)</option>
+                            <option value="g">گرم</option>
+                            <option value="oz">اونس</option>
+                            <option value="kg">کیلوگرم</option>
                         </select>
                     </div>
                     <div class="metal-result">
-                        <span class="result-label">Value</span>
-                        <span class="result-value" id="gold24k-result">0 IRR</span>
+                        <span class="result-label">ارزش</span>
+                        <span class="result-value num" id="gold24k-result">۰ ریال</span>
                     </div>
                 </div>
             </div>
             {% endif %}
 
-            <!-- Silver -->
             {% if exchange_rates.silver_gram %}
             <div class="metal-card">
                 <div class="metal-header">
@@ -177,30 +169,25 @@
                         </svg>
                     </div>
                     <div class="metal-info">
-                        <h3>Silver</h3>
-                        <p class="metal-price">{{ exchange_rates.silver_gram.price|floatformat:"0g" }} IRR / g</p>
-                        {% if exchange_rates.silver_gram.change %}
-                        <p class="metal-change {% if exchange_rates.silver_gram.change >= 0 %}positive{% else %}negative{% endif %}">
-                            {{ exchange_rates.silver_gram.change|floatformat:2 }}%
-                        </p>
-                        {% endif %}
+                        <h3>نقره</h3>
+                        <p class="metal-price"><span class="num"><bdi>{{ exchange_rates.silver_gram.price|fa_price }}</bdi></span> ریال / گرم</p>
                     </div>
                 </div>
                 <div class="metal-form">
                     <div class="input-group">
-                        <label for="silver-amount">Weight</label>
-                        <input type="number" id="silver-amount" placeholder="0.00" min="0" step="0.01" data-price="{{ exchange_rates.silver_gram.price }}">
+                        <label for="silver-amount">وزن</label>
+                        <input type="text" inputmode="decimal" id="silver-amount" dir="ltr" placeholder="۰٫۰۰" data-price="{{ exchange_rates.silver_gram.price }}">
                     </div>
                     <div class="input-group">
-                        <label for="silver-unit">Unit</label>
+                        <label for="silver-unit">واحد</label>
                         <select id="silver-unit">
-                            <option value="g">Grams (g)</option>
-                            <option value="kg">Kilograms (kg)</option>
+                            <option value="g">گرم</option>
+                            <option value="kg">کیلوگرم</option>
                         </select>
                     </div>
                     <div class="metal-result">
-                        <span class="result-label">Value</span>
-                        <span class="result-value" id="silver-result">0 IRR</span>
+                        <span class="result-label">ارزش</span>
+                        <span class="result-value num" id="silver-result">۰ ریال</span>
                     </div>
                 </div>
             </div>
@@ -208,9 +195,8 @@
         </div>
     </section>
 
-    <!-- Net Worth Estimate Section -->
     <section class="networth-section">
-        <h2 class="section-title">Net Worth Estimate</h2>
+        <h2 class="section-title">برآورد ارزش دارایی</h2>
         <div class="networth-card">
             <div class="networth-placeholder">
                 <div class="placeholder-icon">
@@ -219,27 +205,27 @@
                         <path d="M3 9h18M9 21V9"/>
                     </svg>
                 </div>
-                <h3>Coming Soon</h3>
-                <p>Your comprehensive net worth dashboard is currently under development. Soon you'll be able to track all your assets in one unified view.</p>
+                <h3>به‌زودی</h3>
+                <p>داشبورد جامع ارزش دارایی شما در حال آماده‌سازی است؛ به‌زودی همه دارایی‌ها را یک‌جا دنبال می‌کنید.</p>
                 <div class="placeholder-features">
                     <div class="placeholder-feature">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                         </svg>
-                        <span>Real-time portfolio tracking</span>
+                        <span>پیگیری لحظه‌ای سبد دارایی</span>
                     </div>
                     <div class="placeholder-feature">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <circle cx="12" cy="12" r="10"/>
                             <path d="M12 6v6l4 2"/>
                         </svg>
-                        <span>Historical performance</span>
+                        <span>عملکرد تاریخی</span>
                     </div>
                     <div class="placeholder-feature">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
                         </svg>
-                        <span>Asset allocation insights</span>
+                        <span>تحلیل ترکیب دارایی‌ها</span>
                     </div>
                 </div>
             </div>
@@ -248,11 +234,12 @@
 </main>
 
 <script>
-// Pass exchange rates to JavaScript
+// نرخ‌ها به‌صورت عددی به جاوااسکریپت داده می‌شود (هرگز خالی نیست).
+// دلار = ریال هر ۱ دلار (نرخ زنده)؛ دینار از تقسیم بر ۱۳۱۰ به دست می‌آید.
 const exchangeRates = {
-    {% if exchange_rates.usd %}
-    usd: {{ exchange_rates.usd }},
-    {% endif %}
+    usd: {{ exchange_rates.usd|default:0 }},
+    iqd: {{ exchange_rates.iqd|default:0 }},
+    usd_iqd: {{ exchange_rates.usd_iqd|default:1310 }},
     {% if exchange_rates.gold_18k %}
     gold_18k: { price: {{ exchange_rates.gold_18k.price }} },
     {% endif %}
@@ -264,113 +251,168 @@ const exchangeRates = {
     {% endif %}
 };
 
-// Unit conversion factors (to grams)
+// ضریب تبدیل واحدها به گرم (۱ اونس = ۳۱٫۱۰۳۵ گرم)
 const unitConversions = {
     'g': 1,
-    'oz': 31.1035,  // 1 troy ounce = 31.1035 grams
+    'oz': 31.1035,
     'kg': 1000
 };
 
-// Currency conversion logic
-document.querySelector('.convert-btn').addEventListener('click', function() {
-    const amount = parseFloat(document.getElementById('amount').value) || 0;
+var FA_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
+function faNum(value, fractionDigits) {
+    var s = Number(value).toLocaleString('fa-IR', {
+        minimumFractionDigits: fractionDigits,
+        maximumFractionDigits: fractionDigits
+    });
+    return s;
+}
+// ارقام فارسی/عربی کاربر را به لاتین برمی‌گرداند تا محاسبه شود.
+function parseFaNumber(raw) {
+    if (raw === null || raw === undefined) { return NaN; }
+    var s = String(raw).replace(/[۰-۹]/g, function(d){ return String(FA_DIGITS.indexOf(d)); })
+                       .replace(/[٠-٩]/g, function(d){ return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)); })
+                       .replace(/٬|،/g, '').replace(/٫/g, '.').trim();
+    if (s === '') { return NaN; }
+    return parseFloat(s);
+}
+function currencyName(code) {
+    if (code === 'IRR') { return 'ریال'; }
+    if (code === 'USD') { return 'دلار آمریکا'; }
+    if (code === 'IQD') { return 'دینار عراقی'; }
+    return code;
+}
+
+// منطق تبدیل ارز (مبدا ریال است).
+// دلار بر مبنای نرخ زنده و دینار بر مبنای میخ ۱۳۱۰ محاسبه می‌شود.
+const USD_IQD = Number(exchangeRates.usd_iqd) > 0 ? Number(exchangeRates.usd_iqd) : 1310;
+
+function getLiveRates() {
+    const usdRate = Number(exchangeRates.usd) || 0;
+    let iqdRate = Number(exchangeRates.iqd) || 0;
+    if (!(iqdRate > 0) && usdRate > 0) {
+        iqdRate = usdRate / USD_IQD;
+    }
+    return { usdRate, iqdRate };
+}
+
+function toIRR(amount, currency, rates) {
+    if (currency === 'IRR') return amount;
+    if (currency === 'USD') return amount * rates.usdRate;
+    if (currency === 'IQD') return amount * rates.iqdRate;
+    return NaN;
+}
+
+function fromIRR(amountIRR, currency, rates) {
+    if (currency === 'IRR') return amountIRR;
+    if (currency === 'USD') return amountIRR / rates.usdRate;
+    if (currency === 'IQD') return amountIRR / rates.iqdRate;
+    return NaN;
+}
+
+function setConverterError(message) {
+    document.getElementById('exchange-rate-display').textContent = message;
+    document.getElementById('result-value').textContent = '۰٫۰۰';
+}
+
+function doConvert() {
+    const amount = parseFaNumber(document.getElementById('amount').value);
     const fromCurrency = document.getElementById('from-currency').value;
     const toCurrency = document.getElementById('to-currency').value;
-    
-    let result = 0;
-    let rate = 0;
-    
-    // Get rates (all prices are in IRR per unit)
-    const usdRate = exchangeRates.usd || 0;
-    const iqdRate = 1310; // Fixed IQD rate (approximate)
-    
-    // Conversion logic
+    const rates = getLiveRates();
+
+    if (!Number.isFinite(amount) || amount < 0) {
+        setConverterError('لطفاً مبلغ معتبر و نامنفی وارد کنید.');
+        return;
+    }
+
+    let result;
+    let rate;
     if (fromCurrency === toCurrency) {
         result = amount;
         rate = 1;
-    } else if (fromCurrency === 'IRR' && toCurrency === 'USD' && usdRate > 0) {
-        result = amount / usdRate;
-        rate = 1 / usdRate;
-    } else if (fromCurrency === 'IRR' && toCurrency === 'IQD' && usdRate > 0) {
-        result = amount / iqdRate;
-        rate = 1 / iqdRate;
-    } else if (fromCurrency === 'USD' && toCurrency === 'IRR' && usdRate > 0) {
-        result = amount * usdRate;
-        rate = usdRate;
-    } else if (fromCurrency === 'USD' && toCurrency === 'IQD' && usdRate > 0) {
-        result = (amount * usdRate) / iqdRate;
-        rate = usdRate / iqdRate;
-    } else if (fromCurrency === 'IQD' && toCurrency === 'IRR' && usdRate > 0) {
-        result = amount * iqdRate;
-        rate = iqdRate;
-    } else if (fromCurrency === 'IQD' && toCurrency === 'USD' && usdRate > 0) {
-        result = (amount * iqdRate) / usdRate;
-        rate = iqdRate / usdRate;
     } else {
-        // Handle case where rates are not available
-        result = 0;
-        rate = 0;
-        document.getElementById('exchange-rate-display').textContent = 
-            'Exchange rates unavailable. Please refresh the page.';
-        document.getElementById('result-value').textContent = '0.00';
+        // هر دو جهت به نرخ زنده نیاز دارد؛ تقسیم بر صفر ممنوع.
+        if (!(rates.usdRate > 0 && Number.isFinite(rates.usdRate))) {
+            setConverterError('نرخ‌های لحظه‌ای در دسترس نیست؛ لطفاً صفحه را تازه‌سازی کنید.');
+            return;
+        }
+        if (!(rates.iqdRate > 0 && Number.isFinite(rates.iqdRate))) {
+            setConverterError('نرخ‌های لحظه‌ای در دسترس نیست؛ لطفاً صفحه را تازه‌سازی کنید.');
+            return;
+        }
+        const amountInIRR = toIRR(amount, fromCurrency, rates);
+        result = fromIRR(amountInIRR, toCurrency, rates);
+        rate = fromIRR(toIRR(1, fromCurrency, rates), toCurrency, rates);
+    }
+
+    // نگهبان: هرگز نان یا بی‌نهایت نمایش داده نشود.
+    if (!Number.isFinite(result) || !Number.isFinite(rate)) {
+        setConverterError('نرخ‌های لحظه‌ای در دسترس نیست؛ لطفاً صفحه را تازه‌سازی کنید.');
         return;
     }
-    
-    document.getElementById('result-value').textContent = result.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
-    document.getElementById('exchange-rate-display').textContent = 
-        `Exchange rate: 1 ${fromCurrency} = ${rate.toLocaleString('en-US', {maximumFractionDigits: 6})} ${toCurrency}`;
-});
 
-// Swap currencies
-document.querySelector('.swap-btn').addEventListener('click', function() {
+    document.getElementById('result-value').textContent = faNum(result, 2);
+    document.getElementById('exchange-rate-display').textContent =
+        'نرخ تبدیل: ۱ ' + currencyName(fromCurrency) + ' = ' + faNum(rate, 6) + ' ' + currencyName(toCurrency);
+}
+
+document.querySelector('.convert-btn').addEventListener('click', doConvert);
+
+// جابه‌جایی ارزها
+document.querySelector('.swap-btn').addEventListener('click', function(e) {
+    e.preventDefault();
     const fromSelect = document.getElementById('from-currency');
     const toSelect = document.getElementById('to-currency');
     const temp = fromSelect.value;
     fromSelect.value = toSelect.value;
     toSelect.value = temp;
+    doConvert();
 });
 
-// Metal calculator function
+// به‌روزرسانی زنده با هر تغییر و نمایش اولیه.
+document.getElementById('amount').addEventListener('input', doConvert);
+document.getElementById('from-currency').addEventListener('change', doConvert);
+document.getElementById('to-currency').addEventListener('change', doConvert);
+doConvert();
+
+// محاسبه‌گر فلزات گران‌بها
 function calculateMetal(inputId, unitId, resultId, pricePerGram) {
     const input = document.getElementById(inputId);
     const unitSelect = document.getElementById(unitId);
-    
+
     if (!pricePerGram || pricePerGram <= 0) {
-        console.warn(`Invalid price for ${inputId}: ${pricePerGram}`);
+        console.warn('قیمت نامعتبر برای ' + inputId + ': ' + pricePerGram);
         return;
     }
-    
+
     if (!input || !unitSelect) return;
-    
+
     function calculate() {
-        const weight = parseFloat(input.value) || 0;
+        const weight = parseFaNumber(input.value) || 0;
         const unit = unitSelect.value;
         const gramsMultiplier = unitConversions[unit] || 1;
         const totalGrams = weight * gramsMultiplier;
         const value = totalGrams * pricePerGram;
-        
-        document.getElementById(resultId).textContent = 
-            `${value.toLocaleString('en-US', {maximumFractionDigits: 0})} IRR`;
+
+        document.getElementById(resultId).textContent =
+            faNum(value, 0) + ' ریال';
     }
-    
+
     input.addEventListener('input', calculate);
     unitSelect.addEventListener('change', calculate);
 }
 
-// 18K Gold calculator
+// محاسبه‌گر طلای ۱۸ عیار
 if (exchangeRates.gold_18k) {
     calculateMetal('gold18k-amount', 'gold18k-unit', 'gold18k-result', exchangeRates.gold_18k.price);
 }
 
-// 24K Gold calculator
+// محاسبه‌گر طلای ۲۴ عیار
 if (exchangeRates.gold_24k) {
     calculateMetal('gold24k-amount', 'gold24k-unit', 'gold24k-result', exchangeRates.gold_24k.price);
 }
 
-// Silver calculator
+// محاسبه‌گر نقره
 if (exchangeRates.silver_gram) {
     calculateMetal('silver-amount', 'silver-unit', 'silver-result', exchangeRates.silver_gram.price);
 }

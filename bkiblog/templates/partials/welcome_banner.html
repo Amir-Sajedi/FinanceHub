@@ -1,10 +1,10 @@
 {% if user.is_authenticated %}
 <div class="welcome-banner">
     <div class="welcome-banner-inner">
-        <div class="welcome-avatar" aria-hidden="true">{{ user.username|slice:":1"|upper }}</div>
+        <div class="welcome-avatar" aria-hidden="true">{{ user.username|slice:":1" }}</div>
         <div class="welcome-text">
-            <span class="welcome-greeting">Welcome back</span>
-            <span class="welcome-name">{{ user.username }}</span>
+            <span class="welcome-greeting">خوش برگشتید</span>
+            <span class="welcome-name"><bdi>{{ user.username }}</bdi></span>
         </div>
     </div>
 </div>

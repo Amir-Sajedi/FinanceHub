@@ -1,62 +1,183 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Hub</title>
+    <meta name="description" content="فاینانس‌هاب؛ پلتفرم مدیریت مالی برای تبدیل ارز، پیگیری طلا و نقره و محاسبه ارزش خالص دارایی با نرخ‌های لحظه‌ای بازار.">
+    <meta name="theme-color" content="#F3F0EE">
+    <title>{% block title %}فاینانس‌هاب | مدیریت مالی، تبدیل ارز و طلا{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'blog/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'blog/apple-touch-icon.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'blog/kraken.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog/site.css' %}?v=5">
     {% block extra_css %}{% endblock %}
     {% block styling %}{% endblock %}
 </head>
 <body>
-<nav class="navbar">
+<nav class="navbar" aria-label="ناوبری اصلی">
     <div class="nav-container">
-        <div class="nav-brand">
-            <a href="{% url 'home' %}" class="brand-logo" aria-label="Go to main page">F</a>
-            <span class="brand-text">Finance Hub</span>
-        </div>
+        <a href="{% url 'home' %}" class="nav-brand" aria-label="فاینانس‌هاب، صفحه اصلی">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="14" fill="#F3F0EE"/><rect x="18" y="30" width="6" height="16" rx="3" fill="#141413"/><rect x="28" y="22" width="6" height="24" rx="3" fill="#141413"/><rect x="38" y="14" width="6" height="32" rx="3" fill="#141413"/></svg></span>
+            <span class="brand-text">فاینانس‌هاب</span>
+        </a>
 
-        <ul class="nav-links">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'home' %}#about">About</a></li>
+        <ul class="nav-links" id="primary-links">
+            <li><a href="{% url 'home' %}">خانه</a></li>
+            <li><a href="{% url 'home' %}#services">خدمات</a></li>
+            <li><a href="/hub">مبدل ارز</a></li>
+            <li><a href="/hub/networth/">ارزش دارایی</a></li>
+            <li><a href="{% url 'home' %}#about">درباره ما</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'settings' %}">تنظیمات</a></li>
             {% endif %}
         </ul>
 
-        {% if user.is_authenticated %}
-        <div class="right-section">
-            <a href="/hub" class="hub-btn" aria-label="Go to Financial Hub">
+        <div class="nav-actions">
+            {% if user.is_authenticated %}
+            <a href="/hub" class="hub-btn" aria-label="رفتن به هاب مالی">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="3" width="7" height="7"/>
                     <rect x="14" y="3" width="7" height="7"/>
                     <rect x="14" y="14" width="7" height="7"/>
                     <rect x="3" y="14" width="7" height="7"/>
                 </svg>
-                <span class="hub-label">Hub</span>
+                <span class="hub-label">هاب</span>
             </a>
             <form method="post" action="{% url 'logout' %}" class="logout-form">
                 {% csrf_token %}
-                <button type="submit" class="nav-link-btn">Logout</button>
+                <button type="submit" class="nav-link-btn">خروج</button>
             </form>
+            {% else %}
+            <a href="{% url 'login' %}" class="signup-btn">ورود / ثبت‌نام</a>
+            {% endif %}
+            <button class="nav-burger" type="button" id="nav-burger" aria-label="باز کردن منو" aria-expanded="false" aria-controls="nav-overlay">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            </button>
         </div>
-        {% else %}
-        <div class="right-section">
-            <a href="{% url 'login' %}" class="signup-btn">Sign Up</a>
-        </div>
-        {% endif %}
     </div>
 </nav>
 
+<div class="nav-overlay" id="nav-overlay" hidden>
+    <button class="nav-overlay-close" type="button" id="nav-overlay-close" aria-label="بستن منو">✕</button>
+    <a href="{% url 'home' %}">خانه</a>
+    <a href="{% url 'home' %}#services">خدمات</a>
+    <a href="/hub">مبدل ارز</a>
+    <a href="/hub/networth/">ارزش دارایی</a>
+    <a href="{% url 'home' %}#about">درباره ما</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'settings' %}">تنظیمات</a>
+    {% else %}
+    <a href="{% url 'login' %}">ورود / ثبت‌نام</a>
+    {% endif %}
+</div>
 
 {% block content %}{% endblock %}
 
 <footer class="footer">
-    <p>&copy; 2026 Finance Hub. Designed by Amir Sajedi.</p>
+    <div class="footer-inner">
+        <a href="{% url 'home' %}" class="footer-brand" aria-label="فاینانس‌هاب، صفحه اصلی">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="14" fill="#F3F0EE"/><rect x="18" y="30" width="6" height="16" rx="3" fill="#141413"/><rect x="28" y="22" width="6" height="24" rx="3" fill="#141413"/><rect x="38" y="14" width="6" height="32" rx="3" fill="#141413"/></svg></span>
+            <span>فاینانس‌هاب</span>
+        </a>
+        <h2 class="footer-headline">هر وقت به ما نیاز داشتید، اینجاییم تا دارایی‌تان را شفاف ببینید.</h2>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>راهنما</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}#about">پشتیبانی</a></li>
+                    <li><a href="/hub/networth/">دارایی‌های شما</a></li>
+                    <li><a href="{% url 'home' %}#services">نقشه خدمات</a></li>
+                    <li><a href="{% url 'home' %}#privacy">حریم خصوصی</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>برای شما</h4>
+                <ul>
+                    <li><a href="/hub">تبدیل ارز</a></li>
+                    <li><a href="/hub">طلا و نقره</a></li>
+                    <li><a href="/hub/networth/">پیگیری ارزش دارایی</a></li>
+                    <li><a href="{% url 'register' %}">ساخت حساب</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>فاینانس‌هاب</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}#about">درباره ما</a></li>
+                    <li><a href="{% url 'home' %}#privacy">حریم خصوصی و امنیت</a></li>
+                    <li><a href="{% url 'login' %}">ورود</a></li>
+                    <li><a href="{% url 'settings' %}">تنظیمات</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>تازه‌ها</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}#services">خدمات</a></li>
+                    <li><a href="{% url 'home' %}#prices">نرخ‌های بازار</a></li>
+                    <li><a href="/hub">مبدل ارز</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-accordion">
+            <details>
+                <summary>راهنما</summary>
+                <ul>
+                    <li><a href="{% url 'home' %}#about">پشتیبانی</a></li>
+                    <li><a href="/hub/networth/">دارایی‌های شما</a></li>
+                    <li><a href="{% url 'home' %}#services">نقشه خدمات</a></li>
+                    <li><a href="{% url 'home' %}#privacy">حریم خصوصی</a></li>
+                </ul>
+            </details>
+            <details>
+                <summary>برای شما</summary>
+                <ul>
+                    <li><a href="/hub">تبدیل ارز</a></li>
+                    <li><a href="/hub">طلا و نقره</a></li>
+                    <li><a href="/hub/networth/">پیگیری ارزش دارایی</a></li>
+                    <li><a href="{% url 'register' %}">ساخت حساب</a></li>
+                </ul>
+            </details>
+            <details>
+                <summary>فاینانس‌هاب</summary>
+                <ul>
+                    <li><a href="{% url 'home' %}#about">درباره ما</a></li>
+                    <li><a href="{% url 'home' %}#privacy">حریم خصوصی و امنیت</a></li>
+                    <li><a href="{% url 'login' %}">ورود</a></li>
+                    <li><a href="{% url 'settings' %}">تنظیمات</a></li>
+                </ul>
+            </details>
+            <details>
+                <summary>تازه‌ها</summary>
+                <ul>
+                    <li><a href="{% url 'home' %}#services">خدمات</a></li>
+                    <li><a href="{% url 'home' %}#prices">نرخ‌های بازار</a></li>
+                    <li><a href="/hub">مبدل ارز</a></li>
+                </ul>
+            </details>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+            <span>© ۱۴۰۵ فاینانس‌هاب. طراحی‌شده با دقت برای شما.</span>
+            <span class="footer-legal"><a href="{% url 'home' %}#privacy">حریم خصوصی</a><a href="{% url 'home' %}#about">شرایط استفاده</a></span>
+        </div>
+    </div>
 </footer>
+<script>
+(function(){
+  var burger=document.getElementById('nav-burger');
+  var overlay=document.getElementById('nav-overlay');
+  var closeBtn=document.getElementById('nav-overlay-close');
+  if(!burger||!overlay){return;}
+  function openMenu(){overlay.hidden=false;burger.setAttribute('aria-expanded','true');closeBtn.focus();}
+  function closeMenu(){overlay.hidden=true;burger.setAttribute('aria-expanded','false');burger.focus();}
+  burger.addEventListener('click',openMenu);
+  closeBtn.addEventListener('click',closeMenu);
+  overlay.addEventListener('click',function(e){if(e.target.closest('a')){overlay.hidden=true;burger.setAttribute('aria-expanded','false');}});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!overlay.hidden){closeMenu();}});
+})();
+</script>
 </body>
 </html>

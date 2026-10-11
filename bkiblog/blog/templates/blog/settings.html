@@ -1,35 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}تنظیمات حساب | فاینانس‌هاب{% endblock %}
+
 {% block content %}
     <div class="settings-container">
         <div class="settings-card">
             <div class="settings-header">
-                <h1>Account Settings</h1>
+                <h1>تنظیمات حساب</h1>
             </div>
 
             <div class="settings-section">
-                <h2>Profile Information</h2>
+                <h2>اطلاعات کاربری</h2>
                 <div class="settings-placeholder">
-                    <p>Profile settings coming soon...</p>
+                    <p>تنظیمات کاربری به‌زودی…</p>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h2>Change Password</h2>
+                <h2>تغییر رمز عبور</h2>
                 <div class="settings-placeholder">
-                    <p>Password change functionality coming soon...</p>
+                    <p><a href="{% url 'password_change' %}">تغییر رمز عبور</a></p>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h2>Security</h2>
+                <h2>امنیت</h2>
                 <div class="settings-placeholder">
-                    <p>Security settings coming soon...</p>
+                    <p>تنظیمات امنیتی به‌زودی…</p>
                 </div>
             </div>
 
-            <a href="{% url 'home' %}" class="back-link">← Back to Home</a>
+            <a href="{% url 'home' %}" class="back-link">→ بازگشت به خانه</a>
         </div>
     </div>
 {% endblock %}
