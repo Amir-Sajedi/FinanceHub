@@ -1,0 +1,5 @@
+staticfiles/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3-journal
