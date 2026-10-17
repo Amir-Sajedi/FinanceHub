@@ -10,10 +10,8 @@
     <link rel="icon" type="image/svg+xml" href="{% static 'blog/favicon.svg' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'blog/favicon.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'blog/apple-touch-icon.png' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'blog/site.css' %}?v=5">
+    <link rel="preload" href="{% static 'blog/fonts/Vazirmatn-Variable.woff2' %}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="{% static 'blog/site.css' %}?v=6">
     {% block extra_css %}{% endblock %}
     {% block styling %}{% endblock %}
 </head>

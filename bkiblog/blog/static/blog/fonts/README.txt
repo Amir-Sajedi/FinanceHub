@@ -1,13 +1,17 @@
-# Web fonts: Vazirmatn via Google Fonts (no files needed here)
+# Vazirmatn webfont (self-hosted)
 
-The site loads Vazirmatn (variable 100-900) from Google Fonts via
-`<link>` tags in `templates/base.html`. Nothing in this folder is
-referenced by `site.css`.
+The site self-hosts Vazirmatn's variable web font. No Google Fonts dependency.
 
-Optional later switch to licensed Anjoman files:
-  1. Copy your fontiran.com files here as `Anjoman-Variable.woff2`
-     (preferred) or the three static files.
-  2. Add an `@font-face` for them in layer 2 of `site.css`.
-  3. Change the layer-1 token to:
-     `--font-sans: "Anjoman", "Vazirmatn", Tahoma, sans-serif;`
-That token change is the whole switch.
+File in use:
+  Vazirmatn-Variable.woff2
+  = Vazirmatn v33.003 variable font, weight axis 100-900.
+  Source: https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/fonts/webfonts/Vazirmatn%5Bwght%5D.woff2
+
+Wiring:
+  1. @font-face lives in layer 2 of ../../site.css (font-weight: 100 900, font-display: swap).
+  2. templates/base.html preloads this exact file and the token is
+     --font-sans: "Vazirmatn", Tahoma, sans-serif.
+  3. To update: replace this file (same name), bump ?v= on site.css in base.html,
+     then run `python manage.py collectstatic` on the server.
+
+بک‌نوت: قلم وزیرمتن از همین پوشه بارگذاری می‌شود؛ وابستگی به Google Fonts حذف شده است.

@@ -8,6 +8,7 @@
 
     <header class="hero">
         <div class="hero-frame">
+            <span class="hero-ghost" aria-hidden="true">فاینانس‌هاب</span>
             <div class="hero-content">
                 <span class="eyebrow">فاینانس‌هاب</span>
                 <h1>به فاینانس‌هاب خوش آمدید!</h1>
@@ -74,53 +75,77 @@
             {% if market_available and market_rates.fetched_at %}
             <p class="prices-note">آخرین به‌روزرسانی: <time class="jalali-time" data-ts="{{ market_rates.fetched_at }}">…</time></p>
             {% else %}
-            <p class="prices-note">قیمت‌ها موقتاً در دسترس نیست</p>
+            <p class="prices-note">نرخ‌های بازار همین حالا در حال به‌روزرسانی است؛ لحظه‌ای دیگر دوباره سر بزنید.</p>
             {% endif %}
             <div class="prices-cta">
                 {% if user.is_authenticated %}
-                <a href="{% url 'converter' %}" class="btn btn-secondary">ورود برای محاسبه و تبدیل</a>
+                <a href="{% url 'converter' %}" class="btn btn-primary">برای محاسبه و تبدیل به مبدل بروید</a>
                 {% else %}
-                <a href="{% url 'login' %}" class="btn btn-secondary">ورود برای محاسبه و تبدیل</a>
+                <a href="{% url 'login' %}" class="btn btn-primary">برای محاسبه و تبدیل وارد شوید</a>
                 {% endif %}
             </div>
         </section>
 
         <section id="services" class="features-section" aria-label="خدمات">
             <span class="eyebrow">خدمات</span>
-            <h2 class="section-title">خدمات ما</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M12 6v6l4 2"/>
+            <h2 class="section-title">آنچه با فاینانس‌هاب می‌توانید انجام دهید</h2>
+
+            <div class="constellation">
+                <svg class="orbit" viewBox="0 0 1200 660" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path d="M 856 244 C 786 356 668 372 596 300"/>
+                    <path d="M 462 356 C 410 466 318 452 250 268"/>
+                </svg>
+
+                <article class="portrait portrait--1">
+                    <div class="portrait-circle">
+                        <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                            <circle cx="46" cy="62" r="25" fill="#FFFFFF" stroke="#141413" stroke-width="3"/>
+                            <circle cx="74" cy="62" r="25" fill="#FCFBFA" stroke="#141413" stroke-width="3"/>
+                            <path d="M74 47v30" stroke="#141413" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M80.5 54.5c-1.6-2.6-4.2-4.1-7.6-4.1-4 0-6.9 1.9-6.9 4.8 0 2.8 2.3 4.1 6.5 4.9 4.5.9 6.9 2.2 6.9 5 0 3-3 5.1-7.4 5.1-3.8 0-6.6-1.6-8.1-4.2" fill="none" stroke="#141413" stroke-width="3" stroke-linecap="round"/>
                         </svg>
+                        <a class="satellite" href="{% url 'converter' %}" aria-label="رفتن به مبدل ارز">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
                     </div>
+                    <span class="eyebrow">ارز</span>
                     <h3>تبدیل لحظه‌ای ارز</h3>
                     <p>تبدیل میان ریال، دلار آمریکا و دینار عراقی با نرخ‌های زنده بازار.</p>
-                </div>
+                </article>
 
-                <div class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                <article class="portrait portrait--2">
+                    <div class="portrait-circle">
+                        <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                            <path d="M30 84l10-16h40l10 16H30z" fill="#FFFFFF" stroke="#141413" stroke-width="3" stroke-linejoin="round"/>
+                            <path d="M40 68l6-8h40l-6 8" fill="#F3F0EE" stroke="#141413" stroke-width="3" stroke-linejoin="round"/>
+                            <circle cx="80" cy="38" r="11" fill="#FFFFFF" stroke="#141413" stroke-width="3"/>
+                            <circle cx="80" cy="38" r="4" fill="#141413"/>
                         </svg>
+                        <a class="satellite" href="{% url 'converter' %}" aria-label="محاسبه ارزش طلا و نقره">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
                     </div>
+                    <span class="eyebrow">طلا و نقره</span>
                     <h3>مبدل طلا و نقره</h3>
                     <p>ارزش دارایی‌تان را با قیمت روز بازار، به گرم و ریال محاسبه کنید.</p>
-                </div>
+                </article>
 
-                <div class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2"/>
-                            <path d="M3 9h18M9 21V9"/>
+                <article class="portrait portrait--3">
+                    <div class="portrait-circle">
+                        <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                            <path d="M30 88V34M30 88h62" fill="none" stroke="#141413" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M30 82l22-20 16 9 26-26v43H30z" fill="rgba(20,20,19,.08)"/>
+                            <path d="M30 82l22-20 16 9 26-26" fill="none" stroke="#141413" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="94" cy="45" r="6.5" fill="#141413" stroke="#FCFBFA" stroke-width="3"/>
                         </svg>
+                        <a class="satellite" href="{% url 'networth' %}" aria-label="رفتن به ارزش خالص دارایی">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
                     </div>
+                    <span class="eyebrow">دارایی</span>
                     <h3>ارزش خالص دارایی</h3>
-                    <p>نمای یکپارچه دارایی‌ها، تبدیل‌ها و پس‌انداز با تحلیل آرام.</p>
-                </div>
+                    <p>موجودی طلا و دلار را ثبت کنید و ارزش کل سبد و روند آن را یک‌جا ببینید.</p>
+                </article>
             </div>
         </section>
 

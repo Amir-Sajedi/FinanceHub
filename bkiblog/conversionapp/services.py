@@ -53,17 +53,22 @@ def get_market_rates(timeout=4):
     """Return ``(rates_dict, is_live)``; never raises.
 
     ``rates_dict`` keeps the converter-template shape plus ``fetched_at``.
-    ``is_live`` is True for a fresh scrape, False for cached/fallback data.
+    ``is_live`` is True when the data is current (fresh scrape or unexpired
+    short cache), False when serving the longer last-good fallback.
     An empty dict means no data is available at all.
     """
     cache = caches['default']
+
+    # Fresh copy (short TTL) answers instantly; tgju.org is only scraped once
+    # the short cache has expired, so page loads never wait on the network.
+    cached = cache.get(CACHE_KEY)
+    if cached:
+        return cached, True
+
     try:
         raw_data = scrape_market_prices(timeout=timeout)
     except (PriceScraperError, Exception) as exc:
-        logger.warning('Market scrape failed, using cached rates: %s', exc)
-        cached = cache.get(CACHE_KEY)
-        if cached:
-            return cached, False
+        logger.warning('Market scrape failed, using last good rates: %s', exc)
         last_good = cache.get(LAST_GOOD_KEY)
         if last_good:
             return last_good, False
@@ -71,8 +76,8 @@ def get_market_rates(timeout=4):
 
     rates = _build_rates(raw_data)
     if not rates:
-        cached = cache.get(CACHE_KEY) or cache.get(LAST_GOOD_KEY) or {}
-        return cached, False
+        last_good = cache.get(LAST_GOOD_KEY)
+        return (last_good, False) if last_good else ({}, False)
 
     rates['fetched_at'] = time.time()
     cache.set(CACHE_KEY, rates, CACHE_TIMEOUT)

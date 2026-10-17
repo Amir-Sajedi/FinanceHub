@@ -2,14 +2,11 @@
    FinanceHub — site.css (Persian, RTL-first, single stylesheet)
    Layer 1: tokens | Layer 2: base + RTL | Layer 3: components
    Layer 4: layout (nav, footer) | Layer 5: pages (per-page blocks)
-   Phase 1 owns layers 1-3. Layers 4-5 were carried over once
-   and have since been rebuilt in Phases 2-8.
+   One typeface (self-hosted Vazirmatn); radii and colours per DESIGN.md.
    ============================================================ */
 
 /* ============ Layer 1: tokens ============ */
-/* Typeface loads via Google Fonts <link> in base.html (no @font-face here).
-   Later Anjoman switch: add its @font-face in layer 2 and change the token
-   to "Anjoman", "Vazirmatn", Tahoma, sans-serif. */
+/* Vazirmatn is self-hosted (@font-face in layer 2) — no Google Fonts. */
 :root{
   --canvas:#F3F0EE;
   --lifted:#FCFBFA;
@@ -26,7 +23,7 @@
   --clay-tint:#F6E7DE;
   --ghost:#E8E2DA;
   --faint:rgba(20,20,19,.6);
-  --font-sans:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;
+  --font-sans:"Vazirmatn",Tahoma,sans-serif;
   --radius-btn:20px;
   --radius-card:24px;
   --radius-hero:40px;
@@ -39,6 +36,11 @@
 }
 
 /* ============ Layer 2: base + RTL ============ */
+@font-face{
+  font-family:"Vazirmatn";
+  src:url("fonts/Vazirmatn-Variable.woff2") format("woff2");
+  font-weight:100 900;font-style:normal;font-display:swap;
+}
 *{margin:0;padding:0;box-sizing:border-box;letter-spacing:0;text-transform:none}
 html{font-family:var(--font-sans);-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
@@ -49,9 +51,9 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 body>main,body>header,body>div{width:100%}
-h1{font-size:40px;font-weight:700;line-height:1.4}
-h2{font-size:30px;font-weight:700;line-height:1.4}
-h3{font-size:22px;font-weight:500;line-height:1.4}
+h1{font-size:64px;font-weight:500;line-height:1.35}
+h2{font-size:36px;font-weight:500;line-height:1.4}
+h3{font-size:24px;font-weight:500;line-height:1.4}
 h4{font-size:15px;font-weight:700;line-height:1.4}
 a{color:var(--link)}
 em,i{font-style:normal}
@@ -59,6 +61,7 @@ button,input,select,textarea{font:inherit;letter-spacing:0}
 :focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:var(--radius-btn)}
 ::selection{background:var(--ink);color:var(--canvas)}
 .num{direction:ltr;unicode-bidi:isolate}
+.icon-mirror{transform:scaleX(-1)}
 img{max-width:100%}
 input[dir="ltr"]{text-align:start}
 @media (prefers-reduced-motion:reduce){
@@ -126,7 +129,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .prices-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:32px}
 .price-card{
   background:var(--white);border:1px solid var(--line);
-  border-radius:var(--radius-card);padding:32px;box-shadow:none;
+  border-radius:var(--radius-hero);padding:32px;box-shadow:none;
 }
 .price-card__icon{
   width:40px;height:40px;border-radius:50%;
@@ -135,7 +138,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 }
 .price-card__icon svg{width:20px;height:20px}
 .price-card__label{font-size:14px;color:var(--slate);margin-bottom:4px}
-.price-card__value{font-size:32px;font-weight:500;line-height:1.4;margin-block:8px;word-break:break-all}
+.price-card__value{font-size:clamp(26px,3vw,38px);font-weight:500;line-height:1.4;margin-block:8px;word-break:break-all}
 .price-card__unit{font-size:14px;color:var(--slate)}
 .price-card .price-figure{font-size:32px;font-weight:500;line-height:1.4;margin-block:8px;word-break:break-all}
 .price-card .price-unit{font-size:14px;color:var(--slate)}
@@ -275,7 +278,7 @@ ul.errorlist{padding-inline-start:20px;color:var(--clay);font-size:14px;margin-t
 .welcome-name{font-size:16px;font-weight:700}
 .footer{margin-top:auto;background:var(--ink);color:var(--canvas);border:0;padding:64px 48px 32px}
 .footer-inner{max-width:1200px;margin-inline:auto}
-.footer-headline{font-size:30px;font-weight:700;line-height:1.4;max-width:24ch;margin-bottom:40px}
+.footer-headline{font-size:36px;font-weight:500;line-height:1.4;max-width:24ch;margin-bottom:40px}
 .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
 .footer-col h4{font-size:14px;font-weight:700;color:rgba(243,240,238,.65);margin-bottom:16px}
 .footer-col ul{list-style:none;display:grid;gap:10px}
@@ -297,7 +300,13 @@ ul.errorlist{padding-inline-start:20px;color:var(--clay);font-size:14px;margin-t
   background:var(--lifted);border:1px solid var(--line);border-radius:var(--radius-hero);
   padding:64px 56px;box-shadow:none;
 }
-.hero-content{position:relative;max-width:720px}
+.hero-ghost{
+  position:absolute;inset-block-start:-8px;inset-inline-start:-10px;
+  font-size:clamp(96px,17vw,208px);font-weight:800;line-height:1.2;
+  color:var(--ghost);white-space:nowrap;pointer-events:none;user-select:none;
+  z-index:0;
+}
+.hero-content{position:relative;z-index:1;max-width:720px}
 .hero h1{margin-block:16px}
 .hero p{font-size:16px;max-width:60ch;color:var(--ink)}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
@@ -325,7 +334,31 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .price-updated{font-size:13px;color:var(--faint);margin-top:8px}
 .prices-cta{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .prices-note{font-size:14px;color:var(--muted);margin-top:24px}
-.features-section .feature-card{border-radius:var(--radius-card)}
+/* Services constellation: circular portraits + satellite CTAs + orbital arcs */
+.constellation{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;align-items:start;margin-top:56px}
+.orbit{position:absolute;inset-block-start:-48px;inset-inline:0;width:100%;height:calc(100% + 96px);z-index:0;pointer-events:none}
+.orbit path{fill:none;stroke:var(--signal-light);stroke-width:1.5;stroke-linecap:round;opacity:.9}
+.portrait{position:relative;z-index:1;text-align:center}
+.portrait--2{margin-block-start:104px}
+.portrait--3{margin-block-start:36px}
+.portrait-circle{
+  position:relative;width:clamp(200px,24vw,300px);max-width:100%;aspect-ratio:1;margin-inline:auto;
+  border-radius:50%;background:var(--lifted);border:1px solid var(--line);
+  display:grid;place-items:center;
+}
+.portrait-circle>svg{width:58%;height:58%;display:block}
+.satellite{
+  position:absolute;inset-block-end:-14px;inset-inline-end:-14px;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--white);border:1px solid var(--line);color:var(--ink);
+  display:grid;place-items:center;text-decoration:none;
+  transition:transform .15s;
+}
+.satellite svg{width:22px;height:22px}
+.satellite:hover{transform:scale(1.06)}
+.portrait .eyebrow{margin-block:20px 6px}
+.portrait h3{margin-bottom:6px}
+.portrait p{color:var(--muted);max-width:36ch;margin-inline:auto}
 .cta-band{
   background:var(--ink);color:var(--canvas);
   border-radius:var(--radius-hero);padding:64px 56px;margin:32px 0;
@@ -333,20 +366,17 @@ button:disabled{opacity:.6;cursor:not-allowed}
 }
 .cta-band h2{color:var(--canvas);margin-bottom:12px}
 .cta-band p{color:rgba(243,240,238,.8);max-width:60ch;margin:0 auto 28px}
-.features-grid,.metals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-.feature-card,.converter-card,.metal-card,.networth-card,.settings-card{
+.metals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.converter-card,.metal-card,.networth-card,.settings-card{
   background:var(--white);border:1px solid var(--line);
   border-radius:var(--radius-hero);padding:32px 40px;box-shadow:none;
 }
-.feature-card h3{margin-bottom:8px}
-.feature-card p{color:var(--muted)}
-.feature-icon,.metal-icon,.placeholder-icon,.logo-icon,.info-icon{
+.metal-icon,.placeholder-icon,.logo-icon,.info-icon{
   width:44px;height:44px;border-radius:50%;
   background:var(--canvas);color:var(--ink);
   display:grid;place-items:center;flex:none;
 }
-.feature-icon{margin-bottom:16px}
-.feature-icon svg,.metal-icon svg,.placeholder-icon svg{width:22px;height:22px}
+.metal-icon svg,.placeholder-icon svg{width:22px;height:22px}
 .info-section{border-top:1px solid var(--line);margin-top:32px}
 .info-section .info-content{
   display:grid;grid-template-columns:1fr 1.4fr;column-gap:48px;padding:64px 0;
@@ -459,6 +489,14 @@ input[dir="ltr"]{text-align:start}
 .networth-chart-container{position:relative;height:300px}
 .chart-caption{margin-top:16px;text-align:center;font-size:14px;color:var(--muted)}
 .networth-figure{font-size:30px;font-weight:700;line-height:1.4;margin-top:2px}
+.networth-cta{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.networth-cta__icon{
+  width:64px;height:64px;border-radius:50%;background:var(--canvas);color:var(--ink);
+  display:grid;place-items:center;flex:none;
+}
+.networth-cta__icon svg{width:28px;height:28px}
+.networth-cta__body{flex:1;min-width:240px}
+.networth-cta__body p{color:var(--muted);max-width:62ch;margin-block:6px 20px}
 .holdings-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));column-gap:16px}
 .holdings-form>.input-group{margin-bottom:18px}
 .holdings-form>button,.holdings-form>input[type=hidden]{grid-column:1/-1}
@@ -489,7 +527,7 @@ input[dir="ltr"]{text-align:start}
 .logout-actions,.not-found-actions,.success-actions,.additional-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .success-actions>*{flex:1}
 .additional-links{justify-content:center;margin-top:16px}
-.not-found-card h1{font-size:72px;line-height:1.4}
+.not-found-card h1{font-size:64px;line-height:1.35}
 .not-found-card h2{font-size:22px;margin:8px 0}
 
 /* --- 5.5 password flows --- */
@@ -537,7 +575,8 @@ img{background:var(--ghost)}
 
 /* --- responsive (carried over; spacing scale fixed in later phases) --- */
 @media (max-width:1023px) and (min-width:768px){
-  h1{font-size:34px}
+  h1{font-size:48px}
+  h2{font-size:32px}
   .nav-container{padding:12px 20px}
   .nav-links{gap:20px}
   .nav-links li:nth-child(n+5){display:none}
@@ -545,8 +584,9 @@ img{background:var(--ghost)}
   .hero-frame{padding:48px 32px}
 }
 @media (max-width:767px){
-  h1{font-size:30px}
-  h2{font-size:24px}
+  h1{font-size:36px}
+  h2{font-size:26px}
+  h3{font-size:20px}
   .navbar{top:12px;padding-inline:12px}
   .nav-container{padding:10px 12px;gap:12px}
   .brand-text{display:none}
@@ -554,6 +594,12 @@ img{background:var(--ghost)}
   .nav-burger{display:inline-flex}
   .hero{padding:32px 16px 24px}
   .hero-frame{padding:40px 24px;border-radius:var(--radius-hero)}
+  .hero-ghost{font-size:clamp(72px,26vw,120px);inset-block-start:-4px}
+  .price-card{padding:24px}
+  .constellation{grid-template-columns:1fr;gap:48px;margin-top:40px}
+  .portrait--2,.portrait--3{margin-block-start:0}
+  .portrait-circle{width:min(220px,80vw)}
+  .orbit{display:none}
   .features-section,.converter-section,.metals-section,.networth-section,.prices-section{padding:56px 0 24px}
   .prices-section,.features-section{padding:48px 0 24px}
   .info-section .info-content{grid-template-columns:1fr;padding:32px 0}

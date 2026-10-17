@@ -40,7 +40,7 @@
         <h2 class="section-title">تبدیل ارز</h2>
         <div class="converter-card">
             {% if error_message %}
-            <div class="error-message">{{ error_message }}</div>
+            <div class="error-message" role="alert">{{ error_message }}</div>
             {% endif %}
 
             <div class="converter-form">
@@ -196,38 +196,17 @@
     </section>
 
     <section class="networth-section">
-        <h2 class="section-title">برآورد ارزش دارایی</h2>
-        <div class="networth-card">
-            <div class="networth-placeholder">
-                <div class="placeholder-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <path d="M3 9h18M9 21V9"/>
-                    </svg>
-                </div>
-                <h3>به‌زودی</h3>
-                <p>داشبورد جامع ارزش دارایی شما در حال آماده‌سازی است؛ به‌زودی همه دارایی‌ها را یک‌جا دنبال می‌کنید.</p>
-                <div class="placeholder-features">
-                    <div class="placeholder-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                        </svg>
-                        <span>پیگیری لحظه‌ای سبد دارایی</span>
-                    </div>
-                    <div class="placeholder-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M12 6v6l4 2"/>
-                        </svg>
-                        <span>عملکرد تاریخی</span>
-                    </div>
-                    <div class="placeholder-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                        </svg>
-                        <span>تحلیل ترکیب دارایی‌ها</span>
-                    </div>
-                </div>
+        <h2 class="section-title">ارزش خالص دارایی</h2>
+        <div class="networth-card networth-cta">
+            <div class="networth-cta__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+            </div>
+            <div class="networth-cta__body">
+                <h3>دارایی‌های خود را یک‌جا ببینید</h3>
+                <p>موجودی طلای ۱۸ و ۲۴ عیار و دلارتان را ثبت کنید؛ ارزش کل سبد با نرخ‌های لحظه‌ای محاسبه می‌شود و روند آن را روی نمودار می‌بینید.</p>
+                <a href="{% url 'networth' %}" class="btn btn-primary">مشاهده ارزش خالص دارایی</a>
             </div>
         </div>
     </section>
