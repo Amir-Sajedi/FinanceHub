@@ -20,7 +20,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("blog.urls") ),
-    path('hub/', include("conversionapp.urls"))
+    path('hub/', include("conversionapp.urls")),
+    path("api/v1/", include("prices.urls"))
 ]
 
 handler404 = "blog.views.custom_404"

@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver', 'alphex.pythonanywhere.
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'prices',
     'conversionapp',
     'blog',
     'django.contrib.admin',

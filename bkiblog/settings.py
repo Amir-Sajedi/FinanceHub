@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver', 'alphex.pythonanywhere.
 # Application definition
 
 INSTALLED_APPS = [
+    'prices',
     'conversionapp',
     'blog',
     'django.contrib.admin',
@@ -50,6 +51,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
+}
 
 ROOT_URLCONF = 'bkiblog.urls'
 
