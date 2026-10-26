@@ -4,21 +4,32 @@
 {% block title %}خروج | فاینانس‌هاب{% endblock %}
 
 {% block content %}
-    <div class="logout-container">
-        <div class="auth-card">
-            <div class="logout-icon" aria-hidden="true">
-                <svg class="icon-mirror" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-            <h1>از حساب خارج شدید</h1>
-            <p class="logout-message">ممنون که از فاینانس‌هاب استفاده کردید؛ نشست شما با امنیت پایان یافت.</p>
-            <div class="logout-actions">
-                <a href="{% url 'home' %}" class="back-btn">بازگشت به سایت</a>
-                <a href="{% url 'login' %}" class="login-again-btn">ورود دوباره</a>
-            </div>
+<div class="container result-page">
+    <div class="result-card">
+        <span class="result-icon" aria-hidden="true">
+            <svg class="icon-mirror" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        </span>
+
+        {% if user.is_authenticated %}
+        <h1>از حساب خارج می‌شوید؟</h1>
+        <p>نشست شما با خروج به پایان می‌رسد؛ برای ورود دوباره به رمز عبور نیاز دارید.</p>
+
+        <form id="logout-confirm" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+        </form>
+        <div class="result-actions">
+            <button type="submit" form="logout-confirm" class="btn btn--primary">خروج از حساب</button>
+            <a href="{% url 'home' %}" class="btn btn--secondary">بازگشت به خانه</a>
         </div>
+        {% else %}
+        <h1>از حساب خارج شدید</h1>
+        <p>نشست شما با امنیت پایان یافت. هر وقت خواستید دوباره وارد شوید.</p>
+
+        <div class="result-actions">
+            <a href="{% url 'login' %}" class="btn btn--primary">ورود دوباره</a>
+            <a href="{% url 'home' %}" class="btn btn--secondary">بازگشت به خانه</a>
+        </div>
+        {% endif %}
     </div>
+</div>
 {% endblock %}

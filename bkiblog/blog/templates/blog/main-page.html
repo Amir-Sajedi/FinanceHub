@@ -1,190 +1,211 @@
 {% extends "base.html" %}
 {% load static persian %}
 
-{% block title %}فاینانس‌هاب | مدیریت مالی، تبدیل ارز و طلا{% endblock %}
+{% block title %}فاینانس‌هاب | هر گرم، هر دلار؛ یک‌جا روشن{% endblock %}
 
 {% block content %}
-    {% include "partials/welcome_banner.html" %}
+<section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+        <div class="hero__grid">
+            <div class="hero__copy">
+                {% if user.is_authenticated %}
+                <p class="eyebrow">خوش برگشتید، <bdi>{{ user.first_name|default:user.username }}</bdi></p>
+                {% else %}
+                <p class="eyebrow">مدیریت دارایی شخصی</p>
+                {% endif %}
+                <h1 class="hero__title" id="hero-title">هر گرم، هر دلار؛ یک‌جا روشن.</h1>
+                <p class="hero__lead">نرخ زنده بازار را ببینید، ارز و فلزات را تبدیل کنید و ارزش کل دارایی‌تان را در یک نگاه دنبال کنید.</p>
+                <div class="hero__actions">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'converter' %}" class="btn btn--primary">رفتن به مبدل</a>
+                    {% else %}
+                    <a href="{% url 'register' %}" class="btn btn--primary">ساخت حساب رایگان</a>
+                    {% endif %}
+                    <a href="#services" class="btn btn--secondary">چطور کار می‌کند؟</a>
+                </div>
+                <p class="hero__note">
+                    <span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                        نرخ‌ها به‌روز
+                    </span>
+                    <span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                        محاسبه در لحظه
+                    </span>
+                    <span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                        داده‌های خصوصی
+                    </span>
+                </p>
+            </div>
 
-    <header class="hero">
-        <div class="hero-frame">
-            <span class="hero-ghost" aria-hidden="true">فاینانس‌هاب</span>
-            <div class="hero-content">
-                <span class="eyebrow">فاینانس‌هاب</span>
-                <h1>به فاینانس‌هاب خوش آمدید!</h1>
-                <p>پلتفرم جامع مدیریت مالی شما برای تبدیل ارز، پیگیری طلا و نقره و مدیریت امن پس‌انداز.</p>
-                <div class="hero-actions">
-                    <a href="{% url 'converter' %}" class="btn btn-primary">مدیریت دارایی‌ها</a>
-                    <a href="#services" class="btn btn-secondary">مشاهده خدمات</a>
+            <section class="market-board" id="prices" aria-labelledby="market-title">
+                <div class="market-board__head">
+                    <h2 class="market-board__title" id="market-title">بازار امروز</h2>
+                    {% if market_available %}
+                    <span class="chip chip--live"><span class="chip__dot"></span>زنده</span>
+                    {% else %}
+                    <span class="chip chip--live"><span class="chip__dot"></span>در حال دریافت</span>
+                    {% endif %}
+                </div>
+
+                <div class="market-board__list">
+                    <div class="rate-row">
+                        <span class="rate-row__label">دلار آمریکا</span>
+                        <span class="rate-row__value num"><bdi>{% if market_rates.usd %}{{ market_rates.usd|fa_price }}{% else %}—{% endif %}</bdi> <small>ریال</small></span>
+                    </div>
+                    <div class="rate-row">
+                        <span class="rate-row__label">طلای ۱۸ عیار / گرم</span>
+                        <span class="rate-row__value num"><bdi>{% if market_rates.gold_18k %}{{ market_rates.gold_18k.price|fa_price }}{% else %}—{% endif %}</bdi> <small>ریال</small></span>
+                    </div>
+                    <div class="rate-row">
+                        <span class="rate-row__label">طلای ۲۴ عیار / گرم</span>
+                        <span class="rate-row__value num"><bdi>{% if market_rates.gold_24k %}{{ market_rates.gold_24k.price|fa_price }}{% else %}—{% endif %}</bdi> <small>ریال</small></span>
+                    </div>
+                    <div class="rate-row">
+                        <span class="rate-row__label">نقره / گرم</span>
+                        <span class="rate-row__value num"><bdi>{% if market_rates.silver_gram %}{{ market_rates.silver_gram.price|fa_price }}{% else %}—{% endif %}</bdi> <small>ریال</small></span>
+                    </div>
+                </div>
+
+                <div class="market-board__foot">
+                    {% if market_available and market_rates.fetched_at %}
+                    <span>آخرین به‌روزرسانی: <time class="jalali-time" data-ts="{{ market_rates.fetched_at }}">…</time></span>
+                    {% else %}
+                    <span>نرخ‌ها در حال به‌روزرسانی است؛ لحظه‌ای دیگر دوباره سر بزنید.</span>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+<section class="trust-strip" aria-label="چرا فاینانس‌هاب">
+    <div class="container">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg>
+                </span>
+                <div>
+                    <strong>نرخ زنده بازار</strong>
+                    <span>قیمت دلار، طلا و نقره به‌روز می‌شود.</span>
+                </div>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h4"/></svg>
+                </span>
+                <div>
+                    <strong>محاسبه در لحظه</strong>
+                    <span>نتیجه تبدیل همان‌طور که تایپ می‌کنید به‌روز می‌شود.</span>
+                </div>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                </span>
+                <div>
+                    <strong>دارایی خصوصی</strong>
+                    <span>اطلاعات سبد فقط روی حساب شما می‌ماند.</span>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</section>
 
-    <main class="container">
-        <section id="prices" class="prices-section" aria-label="قیمت‌های امروز بازار">
-            <span class="eyebrow">نرخ‌های لحظه‌ای</span>
-            <h2 class="section-title">قیمت‌های امروز بازار</h2>
-            <div class="prices-grid">
-                <article class="price-card">
-                    <div class="price-card__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="6" width="20" height="12" rx="2"/>
-                            <circle cx="12" cy="12" r="2.5"/>
-                            <path d="M6 12h.01M18 12h.01"/>
-                        </svg>
-                    </div>
-                    <h3>دلار آمریکا</h3>
-                    <div class="price-card__value num"><bdi>{% if market_rates.usd %}{{ market_rates.usd|fa_price }}{% else %}—{% endif %}</bdi></div>
-                    <div class="price-card__unit">ریال</div>
-                </article>
-                <article class="price-card">
-                    <div class="price-card__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M7 8h10l3 9H4l3-9z"/>
-                            <path d="M10 12h4"/>
-                        </svg>
-                    </div>
-                    <h3>طلای ۱۸ عیار (هر گرم)</h3>
-                    <div class="price-card__value num"><bdi>{% if market_rates.gold_18k %}{{ market_rates.gold_18k.price|fa_price }}{% else %}—{% endif %}</bdi></div>
-                    <div class="price-card__unit">ریال</div>
-                </article>
-                <article class="price-card">
-                    <div class="price-card__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M7 8h10l3 9H4l3-9z"/>
-                            <path d="M10 12h4"/>
-                        </svg>
-                    </div>
-                    <h3>طلای ۲۴ عیار (هر گرم)</h3>
-                    <div class="price-card__value num"><bdi>{% if market_rates.gold_24k %}{{ market_rates.gold_24k.price|fa_price }}{% else %}—{% endif %}</bdi></div>
-                    <div class="price-card__unit">ریال</div>
-                </article>
-                <article class="price-card">
-                    <div class="price-card__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="9"/>
-                            <circle cx="12" cy="12" r="4"/>
-                        </svg>
-                    </div>
-                    <h3>نقره (هر گرم)</h3>
-                    <div class="price-card__value num"><bdi>{% if market_rates.silver_gram %}{{ market_rates.silver_gram.price|fa_price }}{% else %}—{% endif %}</bdi></div>
-                    <div class="price-card__unit">ریال</div>
-                </article>
+<section id="services" class="section" aria-labelledby="services-title">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <p class="eyebrow">خدمات</p>
+                <h2 id="services-title">از نرخ بازار تا ارزش سبد</h2>
             </div>
-            {% if market_available and market_rates.fetched_at %}
-            <p class="prices-note">آخرین به‌روزرسانی: <time class="jalali-time" data-ts="{{ market_rates.fetched_at }}">…</time></p>
-            {% else %}
-            <p class="prices-note">نرخ‌های بازار همین حالا در حال به‌روزرسانی است؛ لحظه‌ای دیگر دوباره سر بزنید.</p>
-            {% endif %}
-            <div class="prices-cta">
-                {% if user.is_authenticated %}
-                <a href="{% url 'converter' %}" class="btn btn-primary">برای محاسبه و تبدیل به مبدل بروید</a>
-                {% else %}
-                <a href="{% url 'login' %}" class="btn btn-primary">برای محاسبه و تبدیل وارد شوید</a>
-                {% endif %}
-            </div>
-        </section>
+            <p class="lede">سه ابزار ساده که کارِ دیدن و فهمیدن دارایی را یک‌جا انجام می‌دهند.</p>
+        </div>
 
-        <section id="services" class="features-section" aria-label="خدمات">
-            <span class="eyebrow">خدمات</span>
-            <h2 class="section-title">آنچه با فاینانس‌هاب می‌توانید انجام دهید</h2>
+        <div class="feature-grid">
+            <article class="feature">
+                <span class="feature__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h13M17 8l-3-3M17 8l-3 3"/><path d="M20 16H7M7 16l3-3M7 16l3 3"/></svg>
+                </span>
+                <h3>تبدیل ارز</h3>
+                <p>ریال، دلار و دینار را با نرخ زنده تبدیل کنید؛ نتیجه همان لحظه به‌روز می‌شود.</p>
+                <a href="{% url 'converter' %}" class="arrow-link">
+                    رفتن به مبدل
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </a>
+            </article>
 
-            <div class="constellation">
-                <svg class="orbit" viewBox="0 0 1200 660" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-                    <path d="M 856 244 C 786 356 668 372 596 300"/>
-                    <path d="M 462 356 C 410 466 318 452 250 268"/>
-                </svg>
+            <article class="feature">
+                <span class="feature__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 6h10l4 12H3L7 6z"/><path d="M9.5 11h5"/><path d="M12 18v3"/></svg>
+                </span>
+                <h3>فلزات گران‌بها</h3>
+                <p>وزن طلا یا نقره را وارد کنید و ارزشش را به گرم، اونس یا کیلوگرم ببینید.</p>
+                <a href="{% url 'converter' %}#metals" class="arrow-link">
+                    محاسبه طلا و نقره
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </a>
+            </article>
 
-                <article class="portrait portrait--1">
-                    <div class="portrait-circle">
-                        <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-                            <circle cx="46" cy="62" r="25" fill="#FFFFFF" stroke="#141413" stroke-width="3"/>
-                            <circle cx="74" cy="62" r="25" fill="#FCFBFA" stroke="#141413" stroke-width="3"/>
-                            <path d="M74 47v30" stroke="#141413" stroke-width="3" stroke-linecap="round"/>
-                            <path d="M80.5 54.5c-1.6-2.6-4.2-4.1-7.6-4.1-4 0-6.9 1.9-6.9 4.8 0 2.8 2.3 4.1 6.5 4.9 4.5.9 6.9 2.2 6.9 5 0 3-3 5.1-7.4 5.1-3.8 0-6.6-1.6-8.1-4.2" fill="none" stroke="#141413" stroke-width="3" stroke-linecap="round"/>
-                        </svg>
-                        <a class="satellite" href="{% url 'converter' %}" aria-label="رفتن به مبدل ارز">
-                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                    <span class="eyebrow">ارز</span>
-                    <h3>تبدیل لحظه‌ای ارز</h3>
-                    <p>تبدیل میان ریال، دلار آمریکا و دینار عراقی با نرخ‌های زنده بازار.</p>
-                </article>
+            <article class="feature">
+                <span class="feature__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16"/><path d="M7 15l4-5 3 2 5-6"/></svg>
+                </span>
+                <h3>ارزش خالص دارایی</h3>
+                <p>موجودی‌ها را ثبت کنید؛ ارزش کل سبد و روند ۳۰ روز گذشته را یک‌جا ببینید.</p>
+                <a href="{% url 'networth' %}" class="arrow-link">
+                    دیدن ارزش دارایی
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </a>
+            </article>
+        </div>
+    </div>
+</section>
 
-                <article class="portrait portrait--2">
-                    <div class="portrait-circle">
-                        <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-                            <path d="M30 84l10-16h40l10 16H30z" fill="#FFFFFF" stroke="#141413" stroke-width="3" stroke-linejoin="round"/>
-                            <path d="M40 68l6-8h40l-6 8" fill="#F3F0EE" stroke="#141413" stroke-width="3" stroke-linejoin="round"/>
-                            <circle cx="80" cy="38" r="11" fill="#FFFFFF" stroke="#141413" stroke-width="3"/>
-                            <circle cx="80" cy="38" r="4" fill="#141413"/>
-                        </svg>
-                        <a class="satellite" href="{% url 'converter' %}" aria-label="محاسبه ارزش طلا و نقره">
-                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                    <span class="eyebrow">طلا و نقره</span>
-                    <h3>مبدل طلا و نقره</h3>
-                    <p>ارزش دارایی‌تان را با قیمت روز بازار، به گرم و ریال محاسبه کنید.</p>
-                </article>
+<section id="about" class="story" aria-labelledby="about-title">
+    <div class="container">
+        <div class="story-grid">
+            <article class="story-block">
+                <p class="eyebrow">درباره ما</p>
+                <h2 id="about-title">برای اینکه بدانید کجای بازار ایستاده‌اید.</h2>
+                <p>فاینانس‌هاب ابزارهای پراکنده تبدیل و محاسبه را کنار هم گذاشته تا تصویر روشنی از دارایی‌تان داشته باشید؛ بدون جدول‌های پیچیده و بدون اصطلاحات اضافه.</p>
+                <p>طراحی ساده برای تازه‌کارها، دقت برای کسانی که هر عدد را جدی می‌گیرند.</p>
+            </article>
 
-                <article class="portrait portrait--3">
-                    <div class="portrait-circle">
-                        <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-                            <path d="M30 88V34M30 88h62" fill="none" stroke="#141413" stroke-width="3" stroke-linecap="round"/>
-                            <path d="M30 82l22-20 16 9 26-26v43H30z" fill="rgba(20,20,19,.08)"/>
-                            <path d="M30 82l22-20 16 9 26-26" fill="none" stroke="#141413" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="94" cy="45" r="6.5" fill="#141413" stroke="#FCFBFA" stroke-width="3"/>
-                        </svg>
-                        <a class="satellite" href="{% url 'networth' %}" aria-label="رفتن به ارزش خالص دارایی">
-                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                    <span class="eyebrow">دارایی</span>
-                    <h3>ارزش خالص دارایی</h3>
-                    <p>موجودی طلا و دلار را ثبت کنید و ارزش کل سبد و روند آن را یک‌جا ببینید.</p>
-                </article>
-            </div>
-        </section>
+            <article class="story-block" id="privacy">
+                <p class="eyebrow">حریم خصوصی</p>
+                <h2>دارایی شما، فقط برای شما.</h2>
+                <p>اطلاعات سبد شما به شخص ثالث فروخته یا به اشتراک گذاشته نمی‌شود. ارتباط‌ها رمزنگاری‌شده‌اند و ورود به حساب با رمز عبور محافظت می‌شود.</p>
+                <p>هر زمان بخواهید می‌توانید از حساب خارج شوید.</p>
+            </article>
+        </div>
+    </div>
+</section>
 
-        <section id="about" class="info-section">
-            <div class="info-content">
-                <h2>درباره ما</h2>
-                <p>فاینانس‌هاب یک پلتفرم مدرن مدیریت مالی است که کار تبدیل ارز و پیگیری فلزات گران‌بها را ساده می‌کند؛ ابزاری امن و قابل‌اعتماد برای مدیریت دارایی‌هایتان با اطمینان.</p>
-                <p>فناوری روز را با طراحی ساده ترکیب کرده‌ایم تا تجربه‌ای روان برای تازه‌کارها و حرفه‌ای‌ها بسازیم.</p>
-            </div>
-        </section>
-
-        <section id="privacy" class="info-section">
-            <div class="info-content">
-                <h2>حریم خصوصی و امنیت</h2>
-                <p>امنیت داده‌های مالی شما اولویت اول ماست؛ همه ارتباط‌ها رمزنگاری‌شده و همه تراکنش‌ها از مسیر امن انجام می‌شود.</p>
-                <p>اطلاعات شخصی شما هرگز با شخص ثالث به اشتراک گذاشته نمی‌شود.</p>
-            </div>
-        </section>
-
-        <section class="cta-band" aria-label="دعوت به شروع">
-            <h2>همین امروز دارایی‌تان را شفاف ببینید</h2>
-            <p>با نرخ‌های لحظه‌ای بازار، ارز و طلا را تبدیل کنید و ارزش خالص دارایی‌تان را یک‌جا دنبال کنید.</p>
-            {% if user.is_authenticated %}
-            <a href="{% url 'converter' %}" class="btn btn-secondary">رفتن به مبدل</a>
-            {% else %}
-            <a href="{% url 'register' %}" class="btn btn-secondary">ساخت حساب رایگان</a>
-            {% endif %}
-        </section>
-    </main>
+<section class="container" aria-labelledby="cta-title">
+    <div class="cta-band">
+        <p class="eyebrow eyebrow--on-dark">شروع کنید</p>
+        <h2 id="cta-title">امروز، دارایی‌تان را روشن ببینید.</h2>
+        <p>ساخت حساب رایگان است؛ در چند ثانیه شروع کنید و اولین تبدیل را انجام دهید.</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'converter' %}" class="btn btn--on-dark">رفتن به مبدل</a>
+        {% else %}
+        <a href="{% url 'register' %}" class="btn btn--on-dark">ساخت حساب رایگان</a>
+        {% endif %}
+    </div>
+</section>
 
 <script>
-(function(){
-  try{
-    var fmt=new Intl.DateTimeFormat('fa-IR',{dateStyle:'medium',timeStyle:'short'});
-    document.querySelectorAll('.jalali-time').forEach(function(el){
-      var ts=parseFloat(el.getAttribute('data-ts'));
-      if(isFinite(ts)&&ts>0){el.textContent=fmt.format(new Date(ts*1000));}
+(function () {
+  try {
+    var fmt = new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short' });
+    document.querySelectorAll('.jalali-time').forEach(function (el) {
+      var ts = parseFloat(el.getAttribute('data-ts'));
+      if (isFinite(ts) && ts > 0) { el.textContent = fmt.format(new Date(ts * 1000)); }
     });
-  }catch(e){}
+  } catch (e) {}
 })();
 </script>
 {% endblock %}
