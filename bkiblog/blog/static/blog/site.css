@@ -624,7 +624,12 @@ input[type="radio"] {
   pointer-events: none;
 }
 
-.field__control--icon input { padding-inline-start: 46px; }
+/* Shared by login and sign-up: reserve logical space for leading icons.
+   The extra :not() selectors keep this above the base input padding rule. */
+.field__control--icon input:not([type="checkbox"]):not([type="radio"]) {
+  padding-inline-start: 52px;
+  padding-inline-end: 48px;
+}
 
 .field__icon {
   position: absolute;
@@ -636,29 +641,45 @@ input[type="radio"] {
   pointer-events: none;
 }
 
-.field__control--toggle input { padding-inline-end: 72px; }
+.field__control--toggle input:not([type="checkbox"]):not([type="radio"]) {
+  padding-inline-end: 56px;
+}
+
+/* Hide the browser's own password reveal control (Edge/IE) on auth fields. */
+.field__control input[type="password"]::-ms-reveal,
+.field__control input[type="password"]::-ms-clear {
+  display: none;
+}
 
 .password-toggle {
   position: absolute;
-  inset-inline-end: 5px;
+  inset-inline-end: 6px;
   inset-block-start: 50%;
   transform: translateY(-50%);
-  min-width: 60px;
-  min-height: 44px;
-  padding-inline: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   border: 0;
   border-radius: var(--r-sm);
   background: transparent;
   color: var(--brand);
-  font-size: var(--fs-xs);
-  font-weight: 700;
   cursor: pointer;
   transition: background-color var(--transition), color var(--transition);
 }
 
+.password-toggle svg { pointer-events: none; }
+
 .password-toggle:hover {
   background: var(--brand-soft);
   color: var(--brand-strong);
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }
 
 .field__help {
@@ -669,11 +690,13 @@ input[type="radio"] {
 
 .field__error {
   display: flex;
+  flex-direction: column;
   gap: 6px;
   align-items: flex-start;
   color: var(--error);
   font-size: var(--fs-xs);
   line-height: 1.7;
+  text-align: start;
 }
 
 .field--error input,
@@ -737,6 +760,7 @@ ul.errorlist {
   color: var(--error);
   font-size: var(--fs-sm);
   line-height: 1.7;
+  text-align: start;
 }
 
 .requirements {

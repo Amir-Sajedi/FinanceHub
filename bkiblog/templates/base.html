@@ -14,7 +14,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'blog/favicon.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'blog/apple-touch-icon.png' %}">
     <link rel="preload" href="{% static 'blog/fonts/Vazirmatn-Variable.woff2' %}" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="{% static 'blog/site.css' %}?v=8">
+    <link rel="stylesheet" href="{% static 'blog/site.css' %}?v=9">
     {% block extra_css %}{% endblock %}
     {% block styling %}{% endblock %}
 </head>
@@ -174,29 +174,6 @@
       event.preventDefault();
       first.focus();
     }
-  });
-})();
-
-(function () {
-  var toggles = document.querySelectorAll('.field__control input[type="password"]');
-  toggles.forEach(function (input) {
-    var wrap = input.parentElement;
-    var button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'password-toggle';
-    button.textContent = 'نمایش';
-    button.setAttribute('aria-label', 'نمایش رمز عبور');
-    button.setAttribute('aria-pressed', 'false');
-    wrap.classList.add('field__control--toggle');
-    wrap.appendChild(button);
-    button.addEventListener('click', function () {
-      var showing = input.type === 'text';
-      input.type = showing ? 'password' : 'text';
-      button.textContent = showing ? 'نمایش' : 'پنهان';
-      button.setAttribute('aria-label', showing ? 'نمایش رمز عبور' : 'پنهان کردن رمز عبور');
-      button.setAttribute('aria-pressed', showing ? 'false' : 'true');
-      input.focus();
-    });
   });
 })();
 
