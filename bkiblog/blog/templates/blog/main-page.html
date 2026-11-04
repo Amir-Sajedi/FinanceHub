@@ -39,6 +39,7 @@
                 </p>
             </div>
 
+            <div class="hero__market">
             <section class="market-board" id="prices" aria-labelledby="market-title">
                 <div class="market-board__head">
                     <h2 class="market-board__title" id="market-title">بازار امروز</h2>
@@ -76,6 +77,30 @@
                     {% endif %}
                 </div>
             </section>
+
+            <div class="money-orb" aria-hidden="true">
+                <span class="money-orb__orbit"></span>
+                <span class="money-orb__spark money-orb__spark--one"></span>
+                <span class="money-orb__spark money-orb__spark--two"></span>
+                <span class="money-orb__coin">
+                    <svg viewBox="0 0 120 120" fill="none" focusable="false">
+                        <defs>
+                            <linearGradient id="money-coin-face" x1="18" y1="10" x2="102" y2="112" gradientUnits="userSpaceOnUse">
+                                <stop offset="0" stop-color="#F7DCA0"/>
+                                <stop offset=".45" stop-color="#E2B34C"/>
+                                <stop offset="1" stop-color="#BE8A16"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="60" cy="60" r="57" fill="#0A453F"/>
+                        <circle cx="60" cy="60" r="50" fill="url(#money-coin-face)"/>
+                        <circle cx="60" cy="60" r="50" stroke="#F9E8BC" stroke-opacity=".6" stroke-width="1.5"/>
+                        <circle cx="60" cy="60" r="43" stroke="#0A453F" stroke-opacity=".2" stroke-width="1.25" stroke-dasharray="2 6"/>
+                        <path d="M76 40.5c-2.7-3-6.4-4.5-10.8-4.5-7.7 0-13.2 4-13.2 10.2 0 13.2 25.5 7.3 25.5 20.7 0 6.5-5.6 10.9-13.8 10.9-4.8 0-9.2-1.7-12.2-4.6" stroke="#0A453F" stroke-width="5.4" stroke-linecap="round"/>
+                        <path d="M60 29v62" stroke="#0A453F" stroke-width="5.4" stroke-linecap="round"/>
+                    </svg>
+                </span>
+            </div>
+            </div>
         </div>
     </div>
 </section>

@@ -14,7 +14,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'blog/favicon.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'blog/apple-touch-icon.png' %}">
     <link rel="preload" href="{% static 'blog/fonts/Vazirmatn-Variable.woff2' %}" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="{% static 'blog/site.css' %}?v=9">
+    <link rel="stylesheet" href="{% static 'blog/site.css' %}?v=10">
     {% block extra_css %}{% endblock %}
     {% block styling %}{% endblock %}
 </head>
@@ -24,7 +24,7 @@
 <header class="site-header">
     <nav class="nav-container" aria-label="ناوبری اصلی">
         <a href="{% url 'home' %}" class="nav-brand" aria-label="فاینانس‌هاب، صفحه اصلی">
-            <span class="brand-mark" aria-hidden="true">ف</span>
+            {% include "partials/brand_mark.html" %}
             <span class="brand-text">فاینانس‌هاب</span>
         </a>
 
@@ -81,7 +81,7 @@
         <div class="footer-grid">
             <div class="footer-brand-col">
                 <a href="{% url 'home' %}" class="footer-brand" aria-label="فاینانس‌هاب، صفحه اصلی">
-                    <span class="brand-mark" aria-hidden="true">ف</span>
+                    {% include "partials/brand_mark.html" %}
                     <span>فاینانس‌هاب</span>
                 </a>
                 <p class="footer-statement">هر گرم، هر دلار؛ یک‌جا روشن.</p>

@@ -918,36 +918,28 @@ ul.errorlist {
 .nav-brand:hover { color: var(--ink); }
 
 .brand-mark {
-  position: relative;
-  width: 38px;
-  height: 38px;
+  --brand-mark-accent: var(--accent);
+  width: 40px;
+  height: 40px;
   flex: none;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  background: var(--brand);
-  color: var(--surface);
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 400;
-  line-height: 1;
+  color: var(--brand);
 }
 
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  inset-block-end: 5px;
-  inset-inline-end: 5px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
+.brand-mark__glyph {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
 .brand-text {
   color: var(--ink);
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.2;
+  padding-block-start: 3px;
   white-space: nowrap;
 }
 
@@ -1126,12 +1118,19 @@ ul.errorlist {
   gap: 10px;
   min-height: 44px;
   color: var(--surface);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
   text-decoration: none;
 }
 
 .footer-brand:hover { color: var(--surface); }
-.footer-brand .brand-mark { width: 34px; height: 34px; font-size: 23px; }
+.footer-brand .brand-mark {
+  --brand-mark-accent: var(--accent-on-dark);
+  width: 36px;
+  height: 36px;
+  color: var(--surface);
+}
 
 .footer-statement {
   max-width: 22ch;
@@ -1213,6 +1212,11 @@ ul.errorlist {
   grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
   gap: clamp(32px, 5vw, 72px);
   align-items: center;
+}
+
+.hero__market {
+  position: relative;
+  min-width: 0;
 }
 
 .hero__copy { display: grid; gap: 0; }
@@ -1329,6 +1333,107 @@ ul.errorlist {
 }
 
 .market-board__foot a { color: var(--accent-on-dark); font-weight: 700; }
+
+/* Floating dollar medallion pinned to the rate board's right edge */
+.money-orb {
+  --orb-size: clamp(88px, 7.4vw, 104px);
+  position: absolute;
+  z-index: 2;
+  inset-block-start: calc(10px - var(--orb-size));
+  inset-inline-start: calc(46px - var(--orb-size));
+  width: var(--orb-size);
+  height: var(--orb-size);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 26px rgba(10, 69, 63, 0.24));
+}
+
+.money-orb__orbit {
+  position: absolute;
+  inset: -11%;
+  border: 1.5px dashed rgba(217, 162, 39, 0.55);
+  border-radius: 50%;
+}
+
+.money-orb__orbit::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateX(-50%);
+}
+
+.money-orb__coin {
+  position: relative;
+  width: 88%;
+  height: 88%;
+  border-radius: 50%;
+}
+
+.money-orb__coin svg { width: 100%; height: 100%; }
+
+.money-orb__coin::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-image: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.42) 47%, transparent 62%);
+  background-size: 240% 240%;
+  background-repeat: no-repeat;
+  background-position: 130% 0;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.money-orb__spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.8;
+}
+
+.money-orb__spark--one { top: 11%; left: -7%; }
+.money-orb__spark--two {
+  right: -5%;
+  bottom: 16%;
+  width: 5px;
+  height: 5px;
+  background: var(--accent-on-dark);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .money-orb { animation: money-orb-drift 7.5s var(--ease) infinite; }
+  .money-orb__orbit { animation: money-orb-spin 34s linear infinite; }
+  .money-orb__coin::after { animation: money-coin-glint 7s var(--ease) infinite; }
+  .money-orb__spark--one { animation: money-orb-spark 5.2s var(--ease) infinite; }
+  .money-orb__spark--two { animation: money-orb-spark 6.4s var(--ease) 0.8s infinite; }
+}
+
+@keyframes money-orb-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-2.5deg); }
+  50% { transform: translate3d(0, -9px, 0) rotate(2.5deg); }
+}
+
+@keyframes money-orb-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes money-orb-spark {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.45; }
+  50% { transform: translate3d(0, -8px, 0) scale(1); opacity: 0.95; }
+}
+
+@keyframes money-coin-glint {
+  0%, 30% { background-position: 130% 0; }
+  55%, 100% { background-position: -40% 100%; }
+}
 
 /* Trust strip */
 .trust-strip {
@@ -1525,11 +1630,18 @@ ul.errorlist {
   gap: 10px;
   min-height: 44px;
   color: var(--surface);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
   text-decoration: none;
 }
 
 .auth-aside__brand:hover { color: var(--surface); }
+
+.auth-aside__brand .brand-mark {
+  --brand-mark-accent: var(--accent-on-dark);
+  color: var(--surface);
+}
 
 .auth-aside__title {
   max-width: 14ch;
@@ -2122,6 +2234,7 @@ ul.errorlist {
   .hero__grid { grid-template-columns: 1fr; gap: var(--space-6); }
   .hero__title { max-width: 16ch; }
   .market-board { max-width: 620px; }
+  .money-orb { display: none; }
 
   .tool-layout { grid-template-columns: 1fr; }
   .promo-card { position: static; }
