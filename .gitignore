@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 *.pyo
 db.sqlite3-journal
+.env
+.venv/
+telegram_bot/DEPLOYMENT.md
