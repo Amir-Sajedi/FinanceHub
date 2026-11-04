@@ -1,0 +1,8 @@
+# Runtime dependencies for the FinanceHub Telegram bot.
+# Install with:
+#   python -m pip install -r telegram_bot/requirements.txt
+python-telegram-bot>=22.8,<23
+requests>=2.32,<3
+beautifulsoup4>=4.13,<5
+jdatetime>=5.0,<6
+python-dotenv>=1.0,<2
