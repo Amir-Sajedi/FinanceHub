@@ -1,0 +1,44 @@
+# Git metadata and local-only artefacts
+.git
+.gitignore
+.github
+financehub-redesign.patch
+
+# Environment files and secrets
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Python caches and local virtual environments
+**/__pycache__
+**/*.py[cod]
+**/.venv
+**/venv
+**/env
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+
+# IDE and OS clutter
+**/.vscode
+**/.idea
+**/.DS_Store
+Thumbs.db
+
+# Not needed by the web runtime
+README.md
+telegram_bot
+bkiblog/NETWORTH_FEATURE.md
+**/tests.py
+**/tests
+**/test_*.py
+**/*_test.py
+
+# Local database and previously collected static files
+bkiblog/db.sqlite3
+bkiblog/db.sqlite3-journal
+bkiblog/staticfiles
+
+# Logs
+**/*.log
