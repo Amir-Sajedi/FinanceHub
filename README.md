@@ -553,30 +553,62 @@ server {
 }
 ```
 
-### Docker Deployment
+## Docker & Render Deployment
 
-Create `Dockerfile`:
-```dockerfile
-FROM python:3.11-slim
+The production image is built from the repository root with a multi-stage
+`Dockerfile`. It installs the pinned Linux runtime dependencies from
+`bkiblog/requirements-prod.txt` (the existing `requirements.txt` is a Windows
+development freeze), runs Gunicorn as a non-root user, and serves collected
+static files with WhiteNoise. Migrations are intentionally **not** run during
+the image build.
 
-WORKDIR /app
-COPY bkiblog/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+### Build and run locally
 
-COPY bkiblog/ .
-
-RUN python manage.py collectstatic --no-input
-RUN python manage.py migrate --no-input
-
-EXPOSE 8000
-CMD ["gunicorn", "bkiblog.wsgi:application", "--bind", "0.0.0.0:8000"]
-```
-
-Build and run:
 ```bash
 docker build -t financehub:latest .
-docker run -p 8000:8000 financehub:latest
+
+docker run --rm -p 8000:8000 \
+  -e PORT=8000 \
+  -e DJANGO_DEBUG=true \
+  -e DJANGO_SECRET_KEY=local-dev-only \
+  financehub:latest \
+  sh -c "python manage.py migrate --noinput && exec gunicorn bkiblog.wsgi:application --bind 0.0.0.0:8000"
 ```
+
+Check the health endpoint at <http://localhost:8000/healthz/>. Without
+`DATABASE_URL` the container uses SQLite, so data is lost when the container is
+removed. Set `DATABASE_URL` to a PostgreSQL connection string for persistence.
+
+### Deploy on Render
+
+1. Merge this branch, then in the Render Dashboard choose **New → Blueprint** and
+   select this repository. Render reads `render.yaml`.
+2. When prompted for `DJANGO_SECRET_KEY`, provide a strong value (for example,
+   generate one with `python -c "import secrets; print(secrets.token_urlsafe(50))"`).
+   It is marked `sync: false`, so no secret is stored in the repository.
+3. Apply the Blueprint. It creates the Docker web service and a free PostgreSQL
+   database, injects `DATABASE_URL`, and runs migrations through
+   `preDeployCommand` before each deploy.
+4. Render checks `/healthz/` for health. The Blueprint allows the generated
+   `*.onrender.com` host automatically; add any custom domain to
+   `DJANGO_ALLOWED_HOSTS` and optionally `DJANGO_CSRF_TRUSTED_ORIGINS`.
+
+`preDeployCommand` requires Render's paid `starter` web plan. To use the free
+plan instead, change `plan` to `free`, remove `preDeployCommand`, and run
+`python manage.py migrate --noinput` once from the Render Shell after the first
+deploy. The database in the Blueprint uses Render's free plan; adjust its plan
+if you need backups or production guarantees.
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `DJANGO_SECRET_KEY` | Yes when `DJANGO_DEBUG=false` | Django signing secret; never commit it. |
+| `DJANGO_DEBUG` | Yes in production | Set to `false`; the image defaults to `false`. |
+| `DATABASE_URL` | Optional | PostgreSQL URL; injected by the Blueprint. Without it, SQLite is used. |
+| `DJANGO_ALLOWED_HOSTS` | Recommended | Comma-separated hosts; `.onrender.com` covers Render subdomains. |
+| `DJANGO_CSRF_TRUSTED_ORIGINS` | Optional | Comma-separated HTTPS origins for custom domains. |
+| `PORT` | Render-managed | Port Gunicorn binds to; defaults to `8000` outside Render. |
+| `WEB_CONCURRENCY` | Optional | Gunicorn worker count; defaults to `2`. |
+| `GUNICORN_TIMEOUT` | Optional | Gunicorn worker timeout in seconds; defaults to `60`. |
 
 ## Contributing
 
