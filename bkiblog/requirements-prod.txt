@@ -1,0 +1,16 @@
+# Minimal Linux runtime dependencies for the web service.
+# The development freeze in requirements.txt contains Windows-only packages
+# (pywin32, pyreadline, ...), notebooks and build tooling; installing it in a
+# Linux container either fails or produces a much larger image.
+Django==5.2.7
+djangorestframework==3.17.1
+requests==2.32.3
+beautifulsoup4==4.13.3
+
+# Production WSGI server and static-file serving
+gunicorn==27.0.0
+whitenoise==6.12.0
+
+# Optional PostgreSQL support through DATABASE_URL on Render
+dj-database-url==3.1.2
+psycopg[binary]==3.3.8
