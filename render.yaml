@@ -1,0 +1,34 @@
+# Render Blueprint for the Django web service and its database.
+# Create the Blueprint from this repository after merging to the default branch.
+services:
+  - type: web
+    name: financehub
+    runtime: docker
+    region: frankfurt
+    # preDeployCommand (database migrations) requires a paid web service.
+    # Switch to "free" and run migrations manually if you do not need it.
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz/
+    preDeployCommand: python manage.py migrate --noinput
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: financehub-db
+          property: connectionString
+      - key: WEB_CONCURRENCY
+        value: "2"
+
+databases:
+  - name: financehub-db
+    databaseName: financehub
+    user: financehub
+    region: frankfurt
+    plan: free
