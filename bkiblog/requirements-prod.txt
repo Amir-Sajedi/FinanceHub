@@ -6,6 +6,8 @@ Django==5.2.7
 djangorestframework==3.17.1
 requests==2.32.3
 beautifulsoup4==4.13.3
+# Django needs the IANA database for TIME_ZONE on minimal Linux images.
+tzdata==2025.2
 
 # Production WSGI server and static-file serving
 gunicorn==27.0.0
